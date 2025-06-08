@@ -146,6 +146,13 @@
             border-radius: 8px;
             border: 1px solid var(--primary-color);
         }
+        .lang-selector {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
         #prompt-output {
             background-color: var(--bg-color);
             padding: 15px;
@@ -241,6 +248,13 @@
         </div>
 
         <div id="result-container" class="result-area" style="display: none;">
+            <div class="lang-selector">
+                <label for="lang-select" style="color: var(--label-color); font-size: 14px;">Bahasa Prompt:</label>
+                <select id="lang-select" class="form-select" style="width: auto;">
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
             <pre id="prompt-output"></pre>
             <div class="result-buttons">
                  <button id="save-btn" class="btn result-btn save">Kunci / Simpan</button>
@@ -261,13 +275,25 @@
             let userId;
             let firebaseReady = false; // Flag to check Firebase status
             let currentGeneratedPrompt = '';
+
+            // --- KONFIGURASI PENTING ---
+            // Konfigurasi ini sekarang akan menggunakan data yang Anda berikan.
+            const userFirebaseConfig = {
+                apiKey: "AIzaSyBU9A7I-f0IGkLkdmVPLSPfE2AQ-W7farU",
+                authDomain: "ai-genert.firebaseapp.com",
+                projectId: "ai-genert",
+                storageBucket: "ai-genert.appspot.com",
+                messagingSenderId: "1023520312528",
+                appId: "1:1023520312528:web:d23d5f3b75553b57fde2d5",
+                measurementId: "G-C69GGPVJQF"
+            };
             
-            // Konfigurasi Firebase akan diisi oleh environment
-            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            // Pilih konfigurasi: dari environment Canvas jika ada, jika tidak, gunakan dari user.
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
+            const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId || 'default-app-id';
 
             // Check for valid config before initializing Firebase
-            if (firebaseConfig && firebaseConfig.apiKey) {
+            if (firebaseConfig && firebaseConfig.apiKey && firebaseConfig.apiKey !== "AIzaSyBU9A7I-f0IGkLkdmVPLSPfE2AQ-W7farU") {
                 try {
                     const app = initializeApp(firebaseConfig);
                     db = getFirestore(app);
@@ -279,8 +305,17 @@
                     firebaseReady = false;
                 }
             } else {
-                console.warn("Firebase config not found. Gallery features will be disabled.");
-                firebaseReady = false;
+                console.warn("Using user-provided Firebase config.");
+                try {
+                    const app = initializeApp(userFirebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
+                    firebaseReady = true;
+                    console.log("Firebase initialized successfully with user config.");
+                } catch(e) {
+                     console.error("Error initializing Firebase with user config:", e);
+                     firebaseReady = false;
+                }
             }
 
             if (firebaseReady) {
@@ -296,6 +331,7 @@
                 async function signInUser() {
                      if (auth.currentUser) return;
                      try {
+                         // Di environment Canvas, token akan disediakan. Di luar, akan sign in anonim.
                          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                              await signInWithCustomToken(auth, __initial_auth_token);
                          } else {
@@ -317,16 +353,69 @@
                 resultContainer: document.getElementById('result-container'),
                 promptOutputElem: document.getElementById('prompt-output'),
                 galleryContainer: document.getElementById('gallery-container'),
-                galleryTabButton: document.querySelector('.tab-button[data-tab="gallery"]')
+                galleryTabButton: document.querySelector('.tab-button[data-tab="gallery"]'),
+                langSelect: document.getElementById('lang-select')
             };
 
-            // Disable gallery features if Firebase is not ready
             if (!firebaseReady) {
                 if (ui.galleryTabButton) ui.galleryTabButton.style.display = 'none';
                 if (ui.saveBtn) ui.saveBtn.disabled = true;
                 const galleryTab = document.getElementById('gallery-tab');
-                if(galleryTab) galleryTab.innerHTML = '<p style="text-align:center; color: var(--label-color);">Fitur galeri tidak tersedia. Konfigurasi Firebase tidak ditemukan.</p>';
+                if(galleryTab) galleryTab.innerHTML = '<p style="text-align:center; color: var(--label-color);">Fitur galeri tidak tersedia. Konfigurasi Firebase tidak valid.</p>';
             }
+            
+            const tStrings = {
+                id: {
+                    imgTitle: "Sebuah karya seni digital",
+                    vidTitle: "Sebuah klip video sinematik",
+                    charGuide: "PANDUAN KARAKTER",
+                    sceneDesc: "DESKRIPSI ADEGAN",
+                    artDirect: "ARAHAN SENI",
+                    visualDirect: "ARAHAN VISUAL",
+                    audio: "AUDIO",
+                    desc: "Deskripsi",
+                    subject: "Subjek",
+                    action: "Aksi",
+                    setting: "Latar",
+                    lighting: "Pencahayaan",
+                    composition: "Komposisi",
+                    time: "Waktu",
+                    camera: "Camera Work",
+                    sfx: "Desain Suara/SFX",
+                    dialogueLang: "Bahasa Dialog",
+                    dialogue: "Dialog",
+                    actAs: "Berperan sebagai",
+                    about: "tentang",
+                    forAudience: "Target audiensnya adalah",
+                    useTone: "Gunakan gaya bahasa yang",
+                    formatAs: "Sajikan hasilnya dalam format"
+                },
+                en: {
+                    imgTitle: "A digital artwork",
+                    vidTitle: "A cinematic video clip",
+                    charGuide: "CHARACTER GUIDE",
+                    sceneDesc: "SCENE DESCRIPTION",
+                    artDirect: "ART DIRECTION",
+                    visualDirect: "VISUAL DIRECTION",
+                    audio: "AUDIO",
+                    desc: "Description",
+                    subject: "Subject",
+                    action: "Action",
+                    setting: "Setting",
+                    lighting: "Lighting",
+                    composition: "Composition",
+                    time: "Time",
+                    camera: "Camera Work",
+                    sfx: "Sound Design/SFX",
+                    dialogueLang: "Dialogue Language",
+                    dialogue: "Dialogue",
+                    actAs: "Act as a",
+                    about: "about",
+                    forAudience: "The target audience is",
+                    useTone: "Use a",
+                    formatAs: "Present the result in the format of"
+                }
+            };
 
             const randomData = {
                 imgSubjects: ["ksatria naga", "penjelajah waktu", "penyihir hutan"],
@@ -380,6 +469,9 @@
                 ui.resultContainer.style.display = 'block';
                 let finalPrompt = '';
                 const activeTab = getActiveTabId();
+                const lang = ui.langSelect.value;
+                const t = tStrings[lang];
+
                 const buildSection = (title, lines) => {
                     const filteredLines = lines.filter(line => line.value);
                     if (filteredLines.length === 0) return '';
@@ -387,19 +479,25 @@
                 };
 
                 if (activeTab === 'video') {
-                    finalPrompt += `Sebuah klip video sinematik, ${getVal('veo-style') || 'realistis'}.\n\n`;
-                    finalPrompt += buildSection('PANDUAN KARAKTER', [{label: 'Deskripsi', value: getVal('vid-char-desc')}]);
-                    finalPrompt += buildSection('DESKRIPSI ADEGAN', [{label: 'Subjek Utama', value: getVal('veo-subject')}, {label: 'Aksi', value: getVal('veo-action')}, {label: 'Latar', value: getVal('veo-environment')}, {label: 'Waktu', value: getVal('veo-time')}]);
-                    finalPrompt += buildSection('ARAHAN VISUAL', [{label: 'Camera Work', value: getVal('veo-camera')}, {label: 'Pencahayaan', value: getVal('veo-lighting')}]);
-                    finalPrompt += buildSection('AUDIO', [{label: 'Desain Suara/SFX', value: getVal('vid-sfx')}, {label: 'Bahasa Dialog', value: getVal('vid-dialogue-lang')}, {label: 'Dialog', value: getVal('vid-dialogue')}]);
+                    finalPrompt += `${t.vidTitle}, ${getVal('veo-style') || 'realistis'}.\n\n`;
+                    finalPrompt += buildSection(t.charGuide, [{label: t.desc, value: getVal('vid-char-desc')}]);
+                    finalPrompt += buildSection(t.sceneDesc, [{label: t.subject, value: getVal('veo-subject')}, {label: t.action, value: getVal('veo-action')}, {label: t.setting, value: getVal('veo-environment')}, {label: t.time, value: getVal('veo-time')}]);
+                    finalPrompt += buildSection(t.visualDirect, [{label: t.camera, value: getVal('veo-camera')}, {label: t.lighting, value: getVal('veo-lighting')}]);
+                    finalPrompt += buildSection(t.audio, [{label: t.sfx, value: getVal('vid-sfx')}, {label: t.dialogueLang, value: getVal('vid-dialogue-lang')}, {label: t.dialogue, value: getVal('vid-dialogue')}]);
                 } else if (activeTab === 'image') {
-                    finalPrompt += `Sebuah karya seni digital, ${getVal('img-style') || 'sangat detail'}.\n\n`;
-                    finalPrompt += buildSection('PANDUAN KARAKTER', [{label: 'Deskripsi', value: getVal('img-char-desc')}]);
-                    finalPrompt += buildSection('DESKRIPSI ADEGAN', [{label: 'Subjek', value: getVal('img-subject')}, {label: 'Aksi', value: getVal('img-action')}, {label: 'Latar', value: getVal('img-setting')}]);
-                    finalPrompt += buildSection('ARAHAN SENI', [{label: 'Pencahayaan', value: getVal('img-lighting')}, {label: 'Komposisi', value: getVal('img-composition')}]);
+                    finalPrompt += `${t.imgTitle}, ${getVal('img-style') || 'sangat detail'}.\n\n`;
+                    finalPrompt += buildSection(t.charGuide, [{label: t.desc, value: getVal('img-char-desc')}]);
+                    finalPrompt += buildSection(t.sceneDesc, [{label: t.subject, value: getVal('img-subject')}, {label: t.action, value: getVal('img-action')}, {label: t.setting, value: getVal('img-setting')}]);
+                    finalPrompt += buildSection(t.artDirect, [{label: t.lighting, value: getVal('img-lighting')}, {label: t.composition, value: getVal('img-composition')}]);
                 } else {
                     const fields = {t: getVal('text-task'), p: getVal('text-persona'), to: getVal('text-topic'), a: getVal('text-audience'), f: getVal('text-format'), tn: getVal('text-tone')};
-                    finalPrompt = `Berperan sebagai ${fields.p}. ${fields.t} tentang "${fields.to}". Target audiensnya adalah ${fields.a}. Gunakan gaya bahasa yang ${fields.tn}. Sajikan hasilnya dalam format ${fields.f}.`;
+                    let parts = [];
+                    if(fields.p) parts.push(`${t.actAs} ${fields.p}.`);
+                    if(fields.t && fields.to) parts.push(`${t.about} "${fields.to}".`);
+                    if(fields.a) parts.push(`${t.forAudience} ${fields.a}.`);
+                    if(fields.tn) parts.push(`${t.useTone} ${fields.tn}.`);
+                    if(fields.f) parts.push(`${t.formatAs} ${fields.f}.`);
+                    finalPrompt = parts.join(' ');
                 }
                 currentGeneratedPrompt = finalPrompt.trim();
                 ui.promptOutputElem.textContent = currentGeneratedPrompt;
@@ -510,6 +608,11 @@
             ui.randomBtn.addEventListener('click', generateRandom);
             ui.resetBtn.addEventListener('click', resetForm);
             ui.saveBtn.addEventListener('click', savePrompt);
+            ui.langSelect.addEventListener('change', () => {
+                if(ui.resultContainer.style.display === 'block') {
+                    generatePrompt();
+                }
+            });
 
             ui.copyBtn.addEventListener('click', () => {
                 if (!currentGeneratedPrompt) return;
@@ -528,4 +631,3 @@
     </script>
 </body>
 </html>
-
