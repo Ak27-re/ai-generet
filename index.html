@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Prompt dengan Galeri Simpan</title>
+    <title>Generator Prompt AI Final</title>
     <style>
         :root {
             --bg-color: #1a1a2e;
@@ -32,17 +32,6 @@
             border: 1px solid var(--primary-color);
             position: relative;
         }
-        .settings-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--label-color);
-            cursor: pointer;
-            padding: 5px;
-        }
-        .settings-btn:hover { color: #fff; }
         h1 {
             text-align: center;
             color: #fff;
@@ -55,15 +44,16 @@
         .tab-button.active { color: #fff; border-bottom-color: var(--secondary-color); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        fieldset { border: 1px solid var(--primary-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; position: relative; padding-top: 25px; }
+        fieldset { border: 1px solid var(--primary-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
         legend { padding: 0 10px; color: var(--secondary-color); font-weight: 600; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: var(--label-color); }
         .form-input, .form-textarea, .form-select { width: 100%; padding: 10px; background-color: var(--bg-color); border: 1px solid var(--primary-color); border-radius: 6px; color: var(--text-color); font-size: 14px; box-sizing: border-box; font-family: inherit; }
         .form-textarea { resize: vertical; min-height: 80px; }
-        .button-group { display: grid; grid-template-columns: 50px 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .button-group { display: grid; grid-template-columns: 50px 1fr 1fr 1fr; gap: 10px; margin-top: 20px; }
         .btn { padding: 12px; font-size: 16px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-generate { background-color: var(--secondary-color); color: #fff; }
+        .btn-ai { background-color: var(--secondary-color); color: #fff; }
+        .btn-manual { background-color: var(--accent-color); color: #1a1a2e; }
         .btn-random { background-color: var(--primary-color); color: var(--text-color); }
         .btn-reset { background-color: #334155; color: var(--text-color); padding: 10px; font-size: 20px;}
         .btn:hover { transform: translateY(-2px); }
@@ -77,13 +67,8 @@
         .result-btn { background-color: var(--primary-color); color: #fff; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
         .result-btn.save { background-color: var(--accent-color); color: var(--bg-color); }
         .result-btn.save:disabled { background-color: #475569; cursor: not-allowed; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal-content { background-color: var(--surface-color); padding: 30px; border-radius: 12px; border: 1px solid var(--primary-color); width: 90%; max-width: 500px; }
-        .modal-content h2 { margin-top: 0; color: var(--accent-color); }
-        .modal-content p { color: var(--label-color); font-size: 14px; line-height: 1.6; }
-        .modal-buttons { margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
         #gallery-container { display: grid; gap: 15px; grid-template-columns: 1fr; }
-        .prompt-card { background-color: var(--bg-color); border: 1px solid var(--primary-color); border-radius: 8px; padding: 15px; }
+        .prompt-card { background-color: var(--bg-color); border: 1px solid var(--primary-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
         .prompt-card pre { white-space: pre-wrap; word-wrap: break-word; font-size: 14px; margin: 0 0 15px 0; }
         .prompt-card-footer { display: flex; justify-content: flex-end; gap: 10px; }
         .card-btn { border: none; background-color: #334155; color: var(--text-color); padding: 5px 10px; border-radius: 4px; font-size: 12px; cursor: pointer; }
@@ -93,18 +78,17 @@
 <body>
 
     <div class="container">
-        <button id="settings-btn" class="settings-btn" title="Pengaturan">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
         <h1>Generator Prompt AI</h1>
         <div class="tabs">
             <button class="tab-button active" data-tab="image">🎨 Gambar</button>
-            <button class="tab-button" data-tab="video">🎥 Video</button>
+            <button class="tab-button" data-tab="video">🎥 Video Tunggal</button>
+            <button class="tab-button" data-tab="director">🎬 Sutradara</button>
             <button class="tab-button" data-tab="text">✍️ Teks</button>
             <button class="tab-button" data-tab="gallery">🗃️ Galeri</button>
         </div>
         <div id="image-tab" class="tab-content active"></div>
         <div id="video-tab" class="tab-content"></div>
+        <div id="director-tab" class="tab-content"></div>
         <div id="text-tab" class="tab-content"></div>
         <div id="gallery-tab" class="tab-content">
             <h2 style="color:var(--accent-color); text-align:center;">Prompt Tersimpan</h2>
@@ -116,7 +100,8 @@
         <div class="button-group">
             <button id="reset-btn" class="btn btn-reset" title="Bersihkan">🧹</button>
             <button id="random-btn" class="btn btn-random">💡 Acak</button>
-            <button id="generate-btn" class="btn btn-generate">🚀 Buat dengan AI</button>
+            <button id="manual-generate-btn" class="btn btn-manual">🚀 Buat Manual</button>
+            <button id="ai-generate-btn" class="btn btn-ai">✨ Buat dengan AI</button>
         </div>
 
         <div id="result-container" class="result-area" style="display: none;">
@@ -134,23 +119,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Settings Modal -->
-    <div id="settings-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2>Pengaturan API Key</h2>
-            <p>Untuk menggunakan fitur AI, Anda perlu memasukkan Gemini API Key Anda sendiri. Anda bisa mendapatkannya secara gratis dari Google AI Studio.</p>
-            <div class="form-group">
-                <label for="api-key-input">Gemini API Key</label>
-                <input type="password" id="api-key-input" class="form-input" placeholder="Masukkan API Key Anda di sini">
-            </div>
-            <div class="modal-buttons">
-                <button id="cancel-settings-btn" class="btn btn-reset">Batal</button>
-                <button id="save-settings-btn" class="btn btn-generate">Simpan</button>
-            </div>
-        </div>
-    </div>
-
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -168,6 +137,7 @@
                 appId: "1:1023520312528:web:d23d5f3b75553b57fde2d5",
                 measurementId: "G-C69GGPVJQF"
             };
+            const GEMINI_API_KEY = userFirebaseConfig.apiKey;
             
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
             const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId || 'default-app-id';
@@ -198,10 +168,21 @@
                     } catch (error) { console.error("Authentication failed:", error); }
                 }
             }
-
+            
+            const imageTabContent = `<fieldset><legend>Inti Adegan</legend><div class="form-grid"><div class="form-group"><label for="img-subject">Subjek Utama</label><input type="text" id="img-subject" class="form-input"></div><div class="form-group"><label for="img-action">Aksi/Kegiatan</label><input type="text" id="img-action" class="form-input"></div><div class="form-group"><label for="img-setting">Latar/Setting</label><input type="text" id="img-setting" class="form-input"></div></div></fieldset><fieldset><legend>Konsistensi Karakter</legend><div class="form-group"><label for="img-char-desc">Deskripsi Detail Karakter</label><textarea id="img-char-desc" class="form-textarea" placeholder="Contoh: Pria, 30 tahun..."></textarea></div></fieldset><fieldset><legend>Arahan Seni</legend><div class="form-grid"><div class="form-group"><label for="img-style">Gaya Visual</label><input type="text" id="img-style" class="form-input"></div><div class="form-group"><label for="img-lighting">Pencahayaan</label><input type="text" id="img-lighting" class="form-input"></div><div class="form-group"><label for="img-composition">Komposisi/Angle</label><input type="text" id="img-composition" class="form-input"></div></div></fieldset>`;
+            const videoTabContent = `<fieldset><legend>Subject & Action</legend><div class="form-grid"><div class="form-group"><label for="veo-subject">Tokoh utama</label><input type="text" id="veo-subject" class="form-input"></div><div class="form-group"><label for="veo-action">Aksi</label><input type="text" id="veo-action" class="form-input"></div></div></fieldset><fieldset><legend>Konsistensi Karakter</legend><div class="form-group"><label for="vid-char-desc">Deskripsi Detail Karakter</label><textarea id="vid-char-desc" class="form-textarea"></textarea></div></fieldset><fieldset><legend>Environment</legend><div class="form-group"><label for="veo-environment">Latar</label><input type="text" id="veo-environment" class="form-input"></div></fieldset><fieldset><legend>Camera Work</legend><div class="form-group"><label for="veo-camera">Gerakan Kamera</label><input type="text" id="veo-camera" class="form-input"></div></fieldset><fieldset><legend>Lighting, Time, Style & Duration</legend><div class="form-grid"><div class="form-group"><label for="veo-time">Waktu</label><input type="text" id="veo-time" class="form-input"></div><div class="form-group"><label for="veo-lighting">Pencahayaan</label><input type="text" id="veo-lighting" class="form-input"></div><div class="form-group"><label for="veo-style">Gaya</label><input type="text" id="veo-style" class="form-input"></div><div class="form-group"><label for="veo-duration">Durasi (detik)</label><input type="number" id="veo-duration" class="form-input" min="8" placeholder="min. 8"></div></div></fieldset><fieldset><legend>Audio & Dialog</legend><div class="form-grid"><div class="form-group"><label for="vid-dialogue-lang">Bahasa Dialog</label><input type="text" id="vid-dialogue-lang" class="form-input"></div><div class="form-group"><label for="vid-sfx">Desain Suara</label><input type="text" id="vid-sfx" class="form-input"></div></div><div class="form-group"><label for="vid-dialogue">Dialog</label><textarea id="vid-dialogue" class="form-textarea"></textarea></div></fieldset>`;
+            const directorTabContent = `<fieldset><legend>Konsep Cerita</legend><div class="form-group"><label for="dir-story">Ide Utama Cerita</label><textarea id="dir-story" class="form-textarea" placeholder="Contoh: Seorang ksatria naga menemukan pedang legendaris..."></textarea></div><div class="form-grid"><div class="form-group"><label for="dir-duration">Total Durasi Video (detik)</label><input type="number" id="dir-duration" class="form-input" min="8" value="30"></div></div></fieldset><fieldset><legend>Karakter & Konsistensi</legend><div class="form-group"><label for="dir-char">Deskripsi Detail Karakter</label><textarea id="dir-char" class="form-textarea" placeholder="Contoh: Ksatria pria, 30 tahun, rambut hitam panjang..."></textarea></div><div class="form-group"><label for="dir-consistency-key">Kata Kunci Konsistensi Karakter</label><input type="text" id="dir-consistency-key" class="form-input" placeholder="Contoh: KsatriaNagaEmas, DetektifCyberV1"></div></fieldset><fieldset><legend>Audio & Dialog</legend><div class="form-group"><label for="dir-dialogue">Naskah Percakapan (Opsional)</label><textarea id="dir-dialogue" class="form-textarea" placeholder="Ksatria: 'Aku harus mengambil pedang itu!'..."></textarea></div><div class="form-group"><label for="dir-dialogue-lang">Bahasa Dialog</label><input type="text" id="dir-dialogue-lang" class="form-input" placeholder="Indonesia, Inggris, Jawa..."></div></fieldset>`;
+            const textTabContent = `<fieldset><legend>Tujuan & Persona</legend><div class="form-grid"><div class="form-group"><label for="text-task">Tugas Utama</label><input type="text" id="text-task" class="form-input"></div><div class="form-group"><label for="text-persona">Berperan Sebagai</label><input type="text" id="text-persona" class="form-input"></div></div></fieldset><fieldset><legend>Detail Konten</legend><div class="form-grid"><div class="form-group"><label for="text-topic">Topik</label><input type="text" id="text-topic" class="form-input"></div><div class="form-group"><label for="text-audience">Target Audiens</label><input type="text" id="text-audience" class="form-input"></div><div class="form-group"><label for="text-format">Format Output</label><input type="text" id="text-format" class="form-input"></div><div class="form-group"><label for="text-tone">Gaya Bahasa</label><input type="text"id="text-tone" class="form-input"></div></div></fieldset>`;
+            
+            document.getElementById('image-tab').innerHTML = imageTabContent;
+            document.getElementById('video-tab').innerHTML = videoTabContent;
+            document.getElementById('director-tab').innerHTML = directorTabContent;
+            document.getElementById('text-tab').innerHTML = textTabContent;
+            
             const ui = {
                 tabs: document.querySelectorAll('.tab-button'),
-                generateBtn: document.getElementById('generate-btn'),
+                aiGenerateBtn: document.getElementById('ai-generate-btn'),
+                manualGenerateBtn: document.getElementById('manual-generate-btn'),
                 randomBtn: document.getElementById('random-btn'),
                 resetBtn: document.getElementById('reset-btn'),
                 saveBtn: document.getElementById('save-btn'),
@@ -210,43 +191,27 @@
                 promptOutputElem: document.getElementById('prompt-output'),
                 galleryContainer: document.getElementById('gallery-container'),
                 galleryTabButton: document.querySelector('.tab-button[data-tab="gallery"]'),
-                settingsBtn: document.getElementById('settings-btn'),
-                settingsModal: document.getElementById('settings-modal'),
-                saveSettingsBtn: document.getElementById('save-settings-btn'),
-                cancelSettingsBtn: document.getElementById('cancel-settings-btn'),
-                apiKeyInput: document.getElementById('api-key-input'),
                 langSelect: document.getElementById('lang-select')
             };
 
-            if (!firebaseReady) {
-                if (ui.galleryTabButton) ui.galleryTabButton.style.display = 'none';
-                if (ui.saveBtn) ui.saveBtn.disabled = true;
-                const galleryTab = document.getElementById('gallery-tab');
-                if(galleryTab) galleryTab.innerHTML = '<p style="text-align:center; color: var(--label-color);">Fitur galeri tidak tersedia.</p>';
-            }
-            
             const tStrings = {
-                id: { imgTitle: "Sebuah karya seni digital", vidTitle: "Sebuah klip video sinematik", charGuide: "PANDUAN KARAKTER", sceneDesc: "DESKRIPSI ADEGAN", artDirect: "ARAHAN SENI", visualDirect: "ARAHAN VISUAL", audio: "AUDIO", desc: "Deskripsi", subject: "Subjek", action: "Aksi", setting: "Latar", lighting: "Pencahayaan", composition: "Komposisi", time: "Waktu", camera: "Camera Work", sfx: "Desain Suara/SFX", dialogueLang: "Bahasa Dialog", dialogue: "Dialog", actAs: "Berperan sebagai", about: "tentang", forAudience: "Target audiensnya adalah", useTone: "Gunakan gaya bahasa yang", formatAs: "Sajikan hasilnya dalam format" },
-                en: { imgTitle: "A digital artwork", vidTitle: "A cinematic video clip", charGuide: "CHARACTER GUIDE", sceneDesc: "SCENE DESCRIPTION", artDirect: "ART DIRECTION", visualDirect: "VISUAL DIRECTION", audio: "AUDIO", desc: "Description", subject: "Subject", action: "Action", setting: "Setting", lighting: "Lighting", composition: "Composition", time: "Time", camera: "Camera Work", sfx: "Sound Design/SFX", dialogueLang: "Dialogue Language", dialogue: "Dialogue", actAs: "Act as a", about: "about", forAudience: "The target audience is", useTone: "Use a", formatAs: "Present the result in the format of" }
+                id: { imgTitle: "Sebuah karya seni digital", vidTitle: "Sebuah klip video sinematik", charGuide: "PANDUAN KARAKTER", sceneDesc: "DESKRIPSI ADEGAN", artDirect: "ARAHAN SENI", visualDirect: "ARAHAN VISUAL", audio: "AUDIO", desc: "Deskripsi", subject: "Subjek", action: "Aksi", setting: "Latar", lighting: "Pencahayaan", composition: "Komposisi", time: "Waktu", camera: "Camera Work", sfx: "Desain Suara/SFX", dialogueLang: "Bahasa Dialog", dialogue: "Dialog", actAs: "Berperan sebagai", about: "tentang", forAudience: "Target audiensnya adalah", useTone: "Gunakan gaya bahasa yang", formatAs: "Sajikan hasilnya dalam format", duration: "Durasi" },
+                en: { imgTitle: "A digital artwork", vidTitle: "A cinematic video clip", charGuide: "CHARACTER GUIDE", sceneDesc: "SCENE DESCRIPTION", artDirect: "ART DIRECTION", visualDirect: "VISUAL DIRECTION", audio: "AUDIO", desc: "Description", subject: "Subject", action: "Action", setting: "Setting", lighting: "Lighting", composition: "Composition", time: "Time", camera: "Camera Work", sfx: "Sound Design/SFX", dialogueLang: "Dialogue Language", dialogue: "Dialogue", actAs: "Act as a", about: "about", forAudience: "The target audience is", useTone: "Use a", formatAs: "Present the result in the format of", duration: "Duration" }
             };
 
             const randomData = {
                 imgSubjects: ["ksatria naga", "penjelajah waktu", "penyihir hutan"], imgActions: ["bermeditasi di puncak gunung", "bertarung melawan monster bayangan", "merapal mantra kuno"], imgSettings: ["reruntuhan cyberpunk", "perpustakaan tak terbatas", "planet dengan flora bercahaya"], imgCharDescs: ["Pria, 40 thn, janggut tebal, mata lelah, memakai jubah penjelajah.", "Gadis muda, rambut perak, mata ungu, membawa tongkat sihir bercahaya."], imgStyles: ["Fotorealistis", "Fantasi epik", "Lukisan cat minyak"], imgLightings: ["Cahaya senja dramatis", "Malam hari dengan bulan purnama", "Neon"], imgCompositions: ["Close-up", "Wide shot", "Low-angle"],
-                veoSubjects: ["A samurai warrior", "A futuristic drone", "A majestic eagle"], veoActions: ["sheathing his katana", "flying through a dense city", "soaring over a mountain range"], vidCharDescs: ["Samurai dengan armor hitam dan merah, topeng menutupi wajah.", "Drone berwarna perak dengan lampu LED biru.", "Elang dengan bulu coklat keemasan."], veoEnvironments: ["in a bamboo forest", "between towering skyscrapers", "above a snowy landscape"], veoCameras: ["slow motion", "fast-paced tracking shot", "cinematic aerial shot"], veoTimes: ["at dawn", "at night", "during a sunset"], veoLightings: ["soft morning light", "neon city lights", "dramatic backlighting"], veoStyles: ["cinematic", "anime style", "National Geographic documentary"], vidDialogueLangs: ["Jepang", "Tidak ada", "Tidak ada"], vidSfxs: ["the sound of a blade being sheathed, wind in bamboo", "humming and whirring sounds of a drone", "the cry of an eagle, wind sounds"], vidDialogues: ["", "", ""],
-                textTasks: ["Tulis sebuah email", "Buat outline untuk artikel blog", "Rancang sebuah postingan media sosial"], textPersonas: ["Manajer Proyek", "Pakar Pemasaran Digital", "Seorang sejarawan"], textTopics: ["Update kemajuan proyek", "Tren SEO terbaru", "Fakta menarik tentang Kekaisaran Romawi"], textAudiences: ["Tim internal", "Pemilik bisnis kecil", "Penggemar sejarah"], textFormats: ["Tiga paragraf dengan poin-poin", "Daftar bernomor dengan penjelasan singkat", "Satu paragraf singkat dengan 3 hashtag"], textTones: ["Profesional dan informatif", "Antusias dan mudah dipahami", "Menarik dan edukatif"]
+                veoSubjects: ["A samurai warrior", "A futuristic drone", "A majestic eagle"], veoActions: ["sheathing his katana", "flying through a dense city", "soaring over a mountain range"], vidCharDescs: ["Samurai dengan armor hitam dan merah, topeng menutupi wajah.", "Drone berwarna perak dengan lampu LED biru.", "Elang dengan bulu coklat keemasan."], veoEnvironments: ["in a bamboo forest", "between towering skyscrapers", "above a snowy landscape"], veoCameras: ["slow motion", "fast-paced tracking shot", "cinematic aerial shot"], veoTimes: ["at dawn", "at night", "during a sunset"], veoLightings: ["soft morning light", "neon city lights", "dramatic backlighting"], veoStyles: ["cinematic", "anime style", "National Geographic documentary"], vidDialogueLangs: ["Jepang", "Tidak ada", "Tidak ada"], vidSfxs: ["the sound of a blade being sheathed, wind in bamboo", "humming and whirring sounds of a drone", "the cry of an eagle, wind sounds"], vidDialogues: ["", "", ""], vidDurations: [8, 10, 12, 15],
+                stories: ["Seorang astronot terdampar di planet asing dan menemukan peradaban kuno.", "Detektif di kota cyberpunk memecahkan kasus pembunuhan yang melibatkan android.", "Kelompok petualang mencari artefak hilang di kuil dalam hutan lebat."],
+                chars: ["Astronot wanita, tangguh, dengan helm retak dan tatapan penuh harapan.", "Detektif pria sinis dengan mantel panjang dan mata cybernetic.", "Penyihir wanita elf dengan rambut perak dan jubah hijau zamrud."],
+                consistencyKeys: ["AstronotX7", "DetektifNeo", "PenyihirSylva"],
+                dialogues: ["K1: 'Kita tidak sendirian di sini.'", "K1: 'Apa petunjuk berikutnya?'\nK2: 'Semua mengarah ke menara itu.'", ""]
             };
-
-            const imageTabContent = `<fieldset><legend>Inti Adegan</legend><div class="form-grid"><div class="form-group"><label for="img-subject">Subjek Utama</label><input type="text" id="img-subject" class="form-input"></div><div class="form-group"><label for="img-action">Aksi/Kegiatan</label><input type="text" id="img-action" class="form-input"></div><div class="form-group"><label for="img-setting">Latar/Setting</label><input type="text" id="img-setting" class="form-input"></div></div></fieldset><fieldset><legend>Konsistensi Karakter</legend><div class="form-group"><label for="img-char-desc">Deskripsi Detail Karakter</label><textarea id="img-char-desc" class="form-textarea" placeholder="Contoh: Pria, 30 tahun..."></textarea></div></fieldset><fieldset><legend>Arahan Seni</legend><div class="form-grid"><div class="form-group"><label for="img-style">Gaya Visual</label><input type="text" id="img-style" class="form-input"></div><div class="form-group"><label for="img-lighting">Pencahayaan</label><input type="text" id="img-lighting" class="form-input"></div><div class="form-group"><label for="img-composition">Komposisi/Angle</label><input type="text" id="img-composition" class="form-input"></div></div></fieldset>`;
-            const videoTabContent = `<fieldset><span class="fieldset-status status-wajib">Wajib</span><legend>Subject & Action</legend><div class="form-grid"><div class="form-group"><label for="veo-subject">Tokoh utama</label><input type="text" id="veo-subject" class="form-input"></div><div class="form-group"><label for="veo-action">Aksi</label><input type="text" id="veo-action" class="form-input"></div></div></fieldset><fieldset><legend>Konsistensi Karakter</legend><div class="form-group"><label for="vid-char-desc">Deskripsi Detail Karakter</label><textarea id="vid-char-desc" class="form-textarea"></textarea></div></fieldset><fieldset><span class="fieldset-status status-opsional">Opsional</span><legend>Environment</legend><div class="form-group"><label for="veo-environment">Latar</label><input type="text" id="veo-environment" class="form-input"></div></fieldset><fieldset><span class="fieldset-status status-recomended">Recomended</span><legend>Camera Work</legend><div class="form-group"><label for="veo-camera">Gerakan Kamera</label><input type="text" id="veo-camera" class="form-input"></div></fieldset><fieldset><span class="fieldset-status status-opsional">Opsional</span><legend>Lighting, Time & Style</legend><div class="form-grid"><div class="form-group"><label for="veo-time">Waktu</label><input type="text" id="veo-time" class="form-input"></div><div class="form-group"><label for="veo-lighting">Pencahayaan</label><input type="text" id="veo-lighting" class="form-input"></div><div class="form-group"><label for="veo-style">Gaya</label><input type="text" id="veo-style" class="form-input"></div></div></fieldset><fieldset><legend>Audio & Dialog</legend><div class="form-grid"><div class="form-group"><label for="vid-dialogue-lang">Bahasa Dialog</label><input type="text" id="vid-dialogue-lang" class="form-input"></div><div class="form-group"><label for="vid-sfx">Desain Suara</label><input type="text" id="vid-sfx" class="form-input"></div></div><div class="form-group"><label for="vid-dialogue">Dialog</label><textarea id="vid-dialogue" class="form-textarea"></textarea></div></fieldset>`;
-            const textTabContent = `<fieldset><legend>Tujuan & Persona</legend><div class="form-grid"><div class="form-group"><label for="text-task">Tugas Utama</label><input type="text" id="text-task" class="form-input"></div><div class="form-group"><label for="text-persona">Berperan Sebagai</label><input type="text" id="text-persona" class="form-input"></div></div></fieldset><fieldset><legend>Detail Konten</legend><div class="form-grid"><div class="form-group"><label for="text-topic">Topik</label><input type="text" id="text-topic" class="form-input"></div><div class="form-group"><label for="text-audience">Target Audiens</label><input type="text" id="text-audience" class="form-input"></div><div class="form-group"><label for="text-format">Format Output</label><input type="text" id="text-format" class="form-input"></div><div class="form-group"><label for="text-tone">Gaya Bahasa</label><input type="text"id="text-tone" class="form-input"></div></div></fieldset>`;
-            
-            document.getElementById('image-tab').innerHTML = imageTabContent;
-            document.getElementById('video-tab').innerHTML = videoTabContent;
-            document.getElementById('text-tab').innerHTML = textTabContent;
 
             const getVal = (id) => document.getElementById(id)?.value.trim() || '';
             const getActiveTabId = () => document.querySelector('.tab-button.active').dataset.tab;
-
+            const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+            
             ui.tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     ui.tabs.forEach(t => t.classList.remove('active'));
@@ -256,8 +221,7 @@
                 });
             });
 
-            async function callGeminiAPI(prompt) {
-                const apiKey = userFirebaseConfig.apiKey; // Menggunakan kunci yang sudah di-hardcode
+            async function callGeminiAPI(prompt, apiKey) {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                 const payload = { contents: [{ parts: [{ text: prompt }] }] };
                 try {
@@ -284,51 +248,82 @@
             }
             
             async function generateWithAI() {
-                const button = ui.generateBtn;
+                const button = ui.aiGenerateBtn;
                 toggleLoading(true, button);
                 ui.resultContainer.style.display = 'block';
+                ui.promptOutputElem.textContent = "Menghubungi AI...";
+
+                const apiKey = GEMINI_API_KEY; 
+                if (!apiKey || apiKey.includes("PASTE_API_KEY")) {
+                    alert("API Key tidak valid.");
+                    toggleLoading(false, button);
+                    return;
+                }
 
                 const activeTab = getActiveTabId();
                 const lang = ui.langSelect.value;
-                const t = tStrings[lang];
                 let keywords = {};
                 let promptForGemini = '';
-
-                if (activeTab === 'image' || activeTab === 'video') {
+                
+                if (activeTab === 'director') {
+                     keywords = { story: getVal('dir-story'), charDesc: getVal('dir-char'), consistencyKey: getVal('dir-consistency-key'), duration: getVal('dir-duration'), dialogue: getVal('dir-dialogue'), dialogueLang: getVal('dir-dialogue-lang')};
+                     promptForGemini = `Anda adalah seorang sutradara film dan penulis naskah. Tugas Anda adalah membuat storyboard prompt untuk video AI. Konsep Utama: "${keywords.story}". Deskripsi Karakter Utama (Jaga konsistensinya): "${keywords.charDesc}". Kata Kunci Konsistensi (WAJIB ADA DI SETIAP PROMPT): "${keywords.consistencyKey}". Naskah Dialog: "${keywords.dialogue}". Bahasa Dialog: ${keywords.dialogueLang || 'sesuai konteks'}. Total Durasi Video yang Diinginkan: ${keywords.duration} detik. Buatlah rangkaian prompt video yang saling menyambung. Setiap prompt harus menghasilkan klip video berdurasi sekitar 4-8 detik. Jumlah prompt harus disesuaikan agar total durasi mendekati ${keywords.duration} detik. Untuk SETIAP prompt, gunakan format terstruktur berikut: **Adegan [Nomor Adegan]:** - **Prompt:** [Tulis prompt video yang sangat detail. WAJIB sertakan "${keywords.consistencyKey}" saat mendeskripsikan karakter. Jika ada dialog, deskripsikan juga gerakan bibir karakter saat berbicara.] - **Dialog:** [Bagian dialog untuk adegan ini, jika ada] - **Durasi Adegan:** [Estimasi durasi untuk prompt ini, misal: 5 detik]. Pastikan ada alur yang jelas dari awal hingga akhir dan karakter tetap konsisten.`;
+                } else if (activeTab === 'image' || activeTab === 'video') {
                     const isVideo = activeTab === 'video';
-                    keywords = isVideo ? { subject: getVal('veo-subject'), action: getVal('veo-action'), charDesc: getVal('vid-char-desc'), environment: getVal('veo-environment'), camera: getVal('veo-camera'), time: getVal('veo-time'), lighting: getVal('veo-lighting'), style: getVal('veo-style'), sfx: getVal('vid-sfx'), dialogueLang: getVal('vid-dialogue-lang'), dialogue: getVal('vid-dialogue') } : { subject: getVal('img-subject'), action: getVal('img-action'), setting: getVal('img-setting'), charDesc: getVal('img-char-desc'), style: getVal('img-style'), lighting: getVal('img-lighting'), composition: getVal('img-composition') };
+                    keywords = isVideo ? { subject: getVal('veo-subject'), action: getVal('veo-action'), charDesc: getVal('vid-char-desc'), environment: getVal('veo-environment'), camera: getVal('veo-camera'), time: getVal('veo-time'), lighting: getVal('veo-lighting'), style: getVal('veo-style'), sfx: getVal('vid-sfx'), dialogueLang: getVal('vid-dialogue-lang'), dialogue: getVal('vid-dialogue'), duration: getVal('veo-duration') } : { subject: getVal('img-subject'), action: getVal('img-action'), setting: getVal('img-setting'), charDesc: getVal('img-char-desc'), style: getVal('img-style'), lighting: getVal('img-lighting'), composition: getVal('img-composition') };
                     promptForGemini = `Anda adalah seorang ${isVideo ? 'sutradara AI film' : 'ahli pembuat prompt gambar'}. Berdasarkan kata kunci berikut: ${JSON.stringify(keywords)}, kembangkan dan perkaya setiap elemen menjadi deskripsi yang sangat detail, imajinatif, dan sinematik dalam format terstruktur [SECTION] dalam bahasa ${lang === 'id' ? 'Indonesia' : 'English'}. Judul section juga harus dalam bahasa yang sama. Jika sebuah elemen kosong, ciptakan ide kreatif untuk mengisinya. Pastikan hasilnya kaya dengan kata sifat dan istilah teknis yang relevan.`;
                 } else {
-                     generateSimplePrompt();
+                     generateManualPrompt();
                      toggleLoading(false, button);
                      return;
                 }
                 
-                const enrichedPrompt = await callGeminiAPI(promptForGemini);
+                const enrichedPrompt = await callGeminiAPI(promptForGemini, apiKey);
                 
                 if (enrichedPrompt && !enrichedPrompt.startsWith("Error:")) {
                     currentGeneratedPrompt = enrichedPrompt.trim();
                     ui.promptOutputElem.textContent = currentGeneratedPrompt;
                 } else {
-                    ui.promptOutputElem.textContent = "Gagal membuat prompt dengan AI. Periksa API Key atau coba lagi.";
+                    ui.promptOutputElem.textContent = `Gagal membuat prompt dengan AI. Periksa API Key atau coba lagi. \n\nPastikan layanan "Generative Language API" sudah aktif di Google Cloud Console.`;
                 }
 
                 toggleLoading(false, button);
             }
-
-            function generateSimplePrompt() {
+            
+            function generateManualPrompt() {
                 ui.resultContainer.style.display = 'block';
                 let finalPrompt = '';
+                const activeTab = getActiveTabId();
                 const lang = ui.langSelect.value;
                 const t = tStrings[lang];
-                const fields = {t: getVal('text-task'), p: getVal('text-persona'), to: getVal('text-topic'), a: getVal('text-audience'), f: getVal('text-format'), tn: getVal('text-tone')};
-                let parts = [];
-                if(fields.p) parts.push(`${t.actAs} ${fields.p}.`);
-                if(fields.t && fields.to) parts.push(`${fields.t} ${t.about} "${fields.to}".`);
-                if(fields.a) parts.push(`${t.forAudience} ${fields.a}.`);
-                if(fields.tn) parts.push(`${t.useTone} ${fields.tn}.`);
-                if(fields.f) parts.push(`${t.formatAs} ${fields.f}.`);
-                finalPrompt = parts.join(' ');
+
+                const buildSection = (title, lines) => {
+                    const filteredLines = lines.filter(line => line.value);
+                    if (filteredLines.length === 0) return '';
+                    return `[${title}]\n${filteredLines.map(line => `- ${line.label}: ${line.value}`).join('\n')}\n\n`;
+                };
+
+                if (activeTab === 'video') {
+                    finalPrompt += `${t.vidTitle}, ${getVal('veo-style') || 'realistis'}.\n\n`;
+                    finalPrompt += buildSection(t.charGuide, [{label: t.desc, value: getVal('vid-char-desc')}]);
+                    finalPrompt += buildSection(t.sceneDesc, [{label: t.subject, value: getVal('veo-subject')}, {label: t.action, value: getVal('veo-action')}, {label: t.setting, value: getVal('veo-environment')}, {label: t.time, value: getVal('veo-time')}, {label: t.duration, value: getVal('veo-duration') ? `${getVal('veo-duration')} seconds` : ''}]);
+                    finalPrompt += buildSection(t.visualDirect, [{label: t.camera, value: getVal('veo-camera')}, {label: t.lighting, value: getVal('veo-lighting')}]);
+                    finalPrompt += buildSection(t.audio, [{label: t.sfx, value: getVal('vid-sfx')}, {label: t.dialogueLang, value: getVal('vid-dialogue-lang')}, {label: t.dialogue, value: getVal('vid-dialogue')}]);
+                } else if (activeTab === 'image') {
+                    finalPrompt += `${t.imgTitle}, ${getVal('img-style') || 'sangat detail'}.\n\n`;
+                    finalPrompt += buildSection(t.charGuide, [{label: t.desc, value: getVal('img-char-desc')}]);
+                    finalPrompt += buildSection(t.sceneDesc, [{label: t.subject, value: getVal('img-subject')}, {label: t.action, value: getVal('img-action')}, {label: t.setting, value: getVal('img-setting')}]);
+                    finalPrompt += buildSection(t.artDirect, [{label: t.lighting, value: getVal('img-lighting')}, {label: t.composition, value: getVal('img-composition')}]);
+                } else {
+                    const fields = {t: getVal('text-task'), p: getVal('text-persona'), to: getVal('text-topic'), a: getVal('text-audience'), f: getVal('text-format'), tn: getVal('text-tone')};
+                    let parts = [];
+                    if(fields.p) parts.push(`${t.actAs} ${fields.p}.`);
+                    if(fields.t && fields.to) parts.push(`${t.about} "${fields.to}".`);
+                    if(fields.a) parts.push(`${t.forAudience} ${fields.a}.`);
+                    if(fields.tn) parts.push(`${t.useTone} ${fields.tn}.`);
+                    if(fields.f) parts.push(`${t.formatAs} ${fields.f}.`);
+                    finalPrompt = parts.join(' ');
+                }
                 currentGeneratedPrompt = finalPrompt.trim();
                 ui.promptOutputElem.textContent = currentGeneratedPrompt;
             }
@@ -353,9 +348,16 @@
                     document.getElementById('veo-time').value = randomData.veoTimes[index];
                     document.getElementById('veo-lighting').value = randomData.veoLightings[index];
                     document.getElementById('veo-style').value = randomData.veoStyles[index];
+                    document.getElementById('veo-duration').value = getRandomItem(randomData.vidDurations);
                     document.getElementById('vid-dialogue-lang').value = randomData.vidDialogueLangs[index];
                     document.getElementById('vid-sfx').value = randomData.vidSfxs[index];
                     document.getElementById('vid-dialogue').value = randomData.vidDialogues[index];
+                } else if (activeTab === 'director') {
+                    document.getElementById('dir-story').value = getRandomItem(randomData.stories);
+                    document.getElementById('dir-char').value = getRandomItem(randomData.chars);
+                    document.getElementById('dir-consistency-key').value = getRandomItem(randomData.consistencyKeys);
+                    document.getElementById('dir-dialogue').value = getRandomItem(randomData.dialogues);
+                    document.getElementById('dir-duration').value = 30;
                 } else {
                     document.getElementById('text-task').value = getRandomItem(randomData.textTasks);
                     document.getElementById('text-persona').value = getRandomItem(randomData.textPersonas);
@@ -364,7 +366,7 @@
                     document.getElementById('text-format').value = getRandomItem(randomData.textFormats);
                     document.getElementById('text-tone').value = getRandomItem(randomData.textTones);
                 }
-                ui.resultContainer.style.display = 'none';
+                generateWithAI();
             }
 
             function resetForm() { 
@@ -433,20 +435,20 @@
                 });
             }
 
-            ui.generateBtn.addEventListener('click', generateWithAI);
+            ui.aiGenerateBtn.addEventListener('click', generateWithAI);
+            if(ui.manualGenerateBtn) ui.manualGenerateBtn.addEventListener('click', generateManualPrompt);
             ui.randomBtn.addEventListener('click', generateRandom);
             ui.resetBtn.addEventListener('click', resetForm);
-            ui.saveBtn.addEventListener('click', savePrompt);
+            if(ui.saveBtn) ui.saveBtn.addEventListener('click', savePrompt);
             if (ui.langSelect) {
                 ui.langSelect.addEventListener('change', () => {
-                    if (ui.resultContainer.style.display === 'block') {
-                        // Re-trigger generation if language changes
-                        generateWithAI();
+                    if (ui.resultContainer.style.display === 'block' && currentGeneratedPrompt) {
+                       // No auto-generation to save API calls
                     }
                 });
             }
 
-            ui.copyBtn.addEventListener('click', () => {
+            if(ui.copyBtn) ui.copyBtn.addEventListener('click', () => {
                 if (!currentGeneratedPrompt) return;
                 const textArea = document.createElement("textarea");
                 textArea.value = currentGeneratedPrompt;
@@ -455,7 +457,7 @@
                 try {
                     document.execCommand('copy');
                     ui.copyBtn.textContent = 'Tersalin!';
-                    setTimeout(() => { ui.copyBtn.textContent = 'Salin'; }, 2000);
+                    setTimeout(() => { ui.copyBtn.textContent = 'Salin Semua'; }, 2000);
                 } catch (err) { console.error('Gagal menyalin teks', err); }
                 document.body.removeChild(textArea);
             });
