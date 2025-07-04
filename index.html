@@ -175,6 +175,74 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        /* Message Box Styling */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50; /* Green for success */
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .message-box.error {
+            background-color: #f44336; /* Red for error */
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        /* Gallery specific styles */
+        .gallery-item {
+            background-color: #3a3a5a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #5a5a8a;
+            word-wrap: break-word;
+        }
+        .gallery-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .gallery-item-header h5 {
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .gallery-item-actions button {
+            background-color: #00bfff;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s ease;
+            margin-left: 8px;
+        }
+        .gallery-item-actions button.delete-btn {
+            background-color: #f44336;
+        }
+        .gallery-item-actions button:hover {
+            opacity: 0.9;
+        }
+        .gallery-item p {
+            font-size: 0.9rem;
+            color: #c0c0e0;
+            margin-bottom: 5px;
+        }
+        .gallery-item .meta-info {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 10px;
+            border-top: 1px solid #4a4a7a;
+            padding-top: 5px;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 p-5">
@@ -185,6 +253,11 @@
             <span class="app-title-sub">by Sing Sareh</span>
         </div>
         <p class="text-center text-lg mb-8 text-gray-300">Isi bidang-bidang di bawah untuk membuat prompt yang sangat detail</p>
+
+        <!-- User ID Display -->
+        <div class="text-center text-sm text-gray-500 mb-4" id="user-id-display">
+            Memuat pengguna...
+        </div>
 
         <!-- Navigation Tabs -->
         <div class="flex justify-center mb-8 space-x-2">
@@ -470,8 +543,13 @@
         </div>
 
         <!-- Updated: Tab Content for Galeri -->
-        <div id="tab-content-galeri" class="tab-content hidden text-center text-xl text-gray-400 py-20">
-            Galeri ini akan menampilkan prompt yang telah Anda simpan. Fitur penyimpanan akan tersedia dengan integrasi database (misalnya, Firestore).
+        <div id="tab-content-galeri" class="tab-content hidden">
+            <h3 class="text-xl font-bold mb-4 text-gray-200 text-center">Galeri Prompt Tersimpan</h3>
+            <p class="text-center text-gray-400 mb-6">Prompt yang Anda simpan akan muncul di sini. Anda dapat memuat atau menghapus prompt Anda sendiri.</p>
+            <div id="gallery-loading-indicator" class="loading-spinner hidden"></div>
+            <div id="gallery-content" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Saved prompts will be loaded here -->
+            </div>
         </div>
 
         <!-- Main Control Buttons -->
@@ -480,6 +558,7 @@
             <button id="btn-acak" class="button-secondary">💡 Acak</button>
             <button id="btn-buat-manual" class="button-secondary">🚀 Buat Manual</button>
             <button id="btn-buat-ai" class="button-primary">✨ Buat dengan AI</button>
+            <button id="btn-simpan-prompt" class="button-primary">💾 Simpan Prompt</button> <!-- New Save Button -->
         </div>
 
         <!-- Additional Feature Buttons (Gambar Tab Only) -->
@@ -529,13 +608,76 @@
         </div>
     </div>
 
+    <!-- Message Box -->
+    <div id="message-box" class="message-box hidden"></div>
+
     <script type="module">
-        // Global variables for Firebase configuration (if needed in the future)
+        // Firebase Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by Canvas environment
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
 
         // API Key for Gemini (empty string will be filled by Canvas runtime)
-        const apiKey = "";
+        const apiKey = "AIzaSyA8H2QWB4ToX3WQYrW3HjiCuMPeKlMrR74"; // Updated with provided API key
+
+        // Firebase Initialization
+        let app;
+        let db;
+        let auth;
+        let currentUserId = null; // To store the authenticated user's ID
+
+        // Initialize Firebase and authenticate
+        async function initializeFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Listen for auth state changes
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        console.log("Authenticated as:", currentUserId);
+                        document.getElementById('user-id-display') && (document.getElementById('user-id-display').textContent = `ID Pengguna: ${currentUserId}`);
+                        // Load gallery immediately after authentication
+                        loadGalleryPrompts();
+                    } else {
+                        // Sign in anonymously if no user is authenticated
+                        try {
+                            const anonymousUser = await signInAnonymously(auth);
+                            currentUserId = anonymousUser.user.uid;
+                            console.log("Signed in anonymously as:", currentUserId);
+                            document.getElementById('user-id-display') && (document.getElementById('user-id-display').textContent = `ID Pengguna: ${currentUserId}`);
+                            loadGalleryPrompts();
+                        } catch (anonError) {
+                            console.error("Error signing in anonymously:", anonError);
+                            showMessage("Error: Gagal masuk secara anonim. Fitur penyimpanan mungkin tidak berfungsi.", true);
+                        }
+                    }
+                });
+
+                // Try to sign in with custom token if available (Canvas specific)
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (tokenError) {
+                        console.warn("Custom auth token failed, attempting anonymous sign-in:", tokenError);
+                        // Fallback to anonymous sign-in is handled by onAuthStateChanged if user is null
+                    }
+                }
+
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showMessage("Error: Gagal menginisialisasi Firebase. Fitur penyimpanan tidak tersedia.", true);
+            }
+        }
+
+        initializeFirebase();
+
 
         // DOM Elements
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -547,6 +689,9 @@
         const loadingIndicatorMain = document.getElementById('loading-indicator-main'); // Loading for main prompt
         const loadingIndicatorAdditional = document.getElementById('loading-indicator-additional'); // Loading for additional features
         const translationDropdown = document.getElementById('terjemahan-bahasa');
+        const messageBox = document.getElementById('message-box'); // Message box element
+        const galleryContentDiv = document.getElementById('gallery-content'); // Gallery content area
+        const galleryLoadingIndicator = document.getElementById('gallery-loading-indicator'); // Gallery loading spinner
 
         // Input fields for Gambar tab
         const gambarInputs = {
@@ -633,7 +778,28 @@
                 } else {
                     loadingIndicatorAdditional.classList.add('hidden');
                 }
+            } else if (area === 'gallery') {
+                if (show) {
+                    galleryLoadingIndicator.classList.remove('hidden');
+                    galleryContentDiv.innerHTML = '';
+                } else {
+                    galleryLoadingIndicator.classList.add('hidden');
+                }
             }
+        }
+
+        // Function to display messages (success/error)
+        function showMessage(message, isError = false) {
+            messageBox.textContent = message;
+            messageBox.className = 'message-box show'; // Reset classes
+            if (isError) {
+                messageBox.classList.add('error');
+            } else {
+                messageBox.classList.remove('error');
+            }
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 3000); // Hide after 3 seconds
         }
 
         // Function to call Gemini API
@@ -749,6 +915,11 @@
                 if (!isNaN(num) && num >= 0) {
                     generateDialogFields(num);
                 }
+            }
+
+            // If switching to gallery tab, load prompts
+            if (tabId === 'galeri') {
+                loadGalleryPrompts();
             }
         }
 
@@ -1268,6 +1439,191 @@
                 <p>${translatedText}</p>
             `;
         });
+
+        // --- Firebase Integration for Save/Load/Delete Prompts ---
+
+        // Function to save the current prompt
+        document.getElementById('btn-simpan-prompt').addEventListener('click', async () => {
+            if (!currentUserId) {
+                showMessage("Anda belum terautentikasi. Silakan coba lagi.", true);
+                return;
+            }
+            if (!lastEnglishPrompt) {
+                showMessage("Tidak ada prompt untuk disimpan. Silakan buat prompt terlebih dahulu.", true);
+                return;
+            }
+
+            try {
+                // Determine the type of prompt being saved
+                let promptType = 'Gambar'; // Default
+                const activeTabId = document.querySelector('.tab-button.active').id;
+                if (activeTabId === 'tab-video-tunggal') {
+                    promptType = 'Video Tunggal';
+                } else if (activeTabId === 'tab-teks') {
+                    promptType = 'Teks';
+                } else if (activeTabId === 'tab-sutradara') {
+                    promptType = 'Skenario Video';
+                    // For Sutradara, lastEnglishPrompt/lastIndonesianPrompt might not be set correctly
+                    // We need to capture the full generated content from resultDiv
+                    // For simplicity, we'll save the raw HTML content of resultDiv for Sutradara for now.
+                    // A more robust solution would parse the segments back into structured data.
+                    if (resultDiv.innerHTML.includes('Skenario Video per Segmen:')) {
+                        lastEnglishPrompt = resultDiv.innerText; // Capture visible text
+                        lastIndonesianPrompt = resultDiv.innerText; // Assuming it's mixed or not separate
+                    } else {
+                        showMessage("Tidak dapat menyimpan skenario video yang tidak tergenerasi atau tidak dalam format yang diharapkan.", true);
+                        return;
+                    }
+                }
+
+
+                const docRef = await addDoc(collection(db, `artifacts/${appId}/users/${currentUserId}/prompts`), { // Changed path to user-specific
+                    english_prompt: lastEnglishPrompt,
+                    indonesian_prompt: lastIndonesianPrompt,
+                    type: promptType,
+                    userId: currentUserId, // Still store userId to identify owner
+                    timestamp: new Date().toISOString()
+                });
+                showMessage("Prompt berhasil disimpan!");
+                console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                showMessage("Error: Gagal menyimpan prompt.", true);
+            }
+        });
+
+        // Function to load all saved prompts from Firestore
+        async function loadGalleryPrompts() {
+            if (!db || !currentUserId) { // Ensure currentUserId is available
+                console.warn("Firestore atau pengguna belum terautentikasi. Mencoba memuat galeri lagi...");
+                return;
+            }
+            showLoading(true, 'gallery');
+            try {
+                // Use onSnapshot for real-time updates
+                // Query only prompts belonging to the current user
+                const q = query(collection(db, `artifacts/${appId}/users/${currentUserId}/prompts`), orderBy("timestamp", "desc")); // Changed path and added filter
+                onSnapshot(q, (snapshot) => {
+                    galleryContentDiv.innerHTML = ''; // Clear current gallery
+                    if (snapshot.empty) {
+                        galleryContentDiv.innerHTML = '<p class="text-center text-gray-500">Belum ada prompt yang Anda simpan.</p>'; // Updated message
+                        showLoading(false, 'gallery');
+                        return;
+                    }
+
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const promptId = doc.id;
+                        const isOwner = data.userId === currentUserId; // This check is now redundant due to path, but good for consistency
+                        const timestamp = new Date(data.timestamp).toLocaleString();
+
+                        const galleryItem = document.createElement('div');
+                        galleryItem.className = 'gallery-item';
+                        galleryItem.innerHTML = `
+                            <div class="gallery-item-header">
+                                <h5>${data.type} Prompt (${timestamp})</h5>
+                                <div class="gallery-item-actions">
+                                    <button class="load-btn" data-id="${promptId}" data-english="${encodeURIComponent(data.english_prompt)}" data-indonesian="${encodeURIComponent(data.indonesian_prompt)}">Muat</button>
+                                    ${isOwner ? `<button class="delete-btn" data-id="${promptId}">Hapus</button>` : ''}
+                                </div>
+                            </div>
+                            <p><strong>English:</strong> ${data.english_prompt.substring(0, 150)}...</p>
+                            <p><strong>Indonesia:</strong> ${data.indonesian_prompt.substring(0, 150)}...</p>
+                            <div class="meta-info">Oleh: Anda</div> <!-- Changed to 'Anda' as it's personal gallery -->
+                        `;
+                        galleryContentDiv.appendChild(galleryItem);
+                    });
+
+                    // Add event listeners for Load and Delete buttons in the gallery
+                    galleryContentDiv.querySelectorAll('.load-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const englishPrompt = decodeURIComponent(event.target.dataset.english);
+                            const indonesianPrompt = decodeURIComponent(event.target.dataset.indonesian);
+                            loadPromptToMainArea(englishPrompt, indonesianPrompt);
+                        });
+                    });
+
+                    galleryContentDiv.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', (event) => {
+                            const promptId = event.target.dataset.id;
+                            deletePrompt(promptId); // Call the custom delete function
+                        });
+                    });
+                    showLoading(false, 'gallery');
+                }, (error) => { // Add error handling for onSnapshot
+                    console.error("Error in gallery snapshot listener:", error);
+                    showMessage("Error: Gagal memuat galeri prompt. Periksa izin akses.", true);
+                    showLoading(false, 'gallery');
+                });
+
+            } catch (e) {
+                console.error("Error setting up gallery listener: ", e);
+                showMessage("Error: Gagal memuat galeri prompt.", true);
+                showLoading(false, 'gallery');
+            }
+        }
+
+        // Function to load a saved prompt into the main result area
+        function loadPromptToMainArea(englishPrompt, indonesianPrompt) {
+            lastEnglishPrompt = englishPrompt;
+            lastIndonesianPrompt = indonesianPrompt;
+            resultDiv.innerHTML = `
+                <h4 class="text-lg font-semibold text-gray-100 mb-2">Prompt Bahasa Inggris:</h4>
+                <p class="mb-4">${lastEnglishPrompt}</p>
+                <h4 class="text-lg font-semibold text-gray-100 mb-2">Prompt Bahasa Indonesia:</h4>
+                <p>${indonesianPrompt}</p>
+            `;
+            showMessage("Prompt berhasil dimuat ke area utama.");
+            // Optionally, switch back to the Gambar tab or the relevant tab
+            // For simplicity, we keep the current tab active. User can manually switch.
+        }
+
+        // Function to delete a prompt (using custom modal)
+        async function deletePrompt(promptId) {
+            if (!db || !currentUserId) {
+                showMessage("Error: Autentikasi diperlukan untuk menghapus.", true);
+                return;
+            }
+
+            // Custom confirmation logic
+            const confirmDelete = await new Promise(resolve => {
+                const modalHtml = `
+                    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center">
+                            <p class="text-lg font-semibold mb-4">Apakah Anda yakin ingin menghapus prompt ini?</p>
+                            <button id="confirm-delete-yes" class="button-primary mr-4">Ya, Hapus</button>
+                            <button id="confirm-delete-no" class="button-secondary">Tidak, Batalkan</button>
+                        </div>
+                    </div>
+                `;
+                const modalDiv = document.createElement('div');
+                modalDiv.innerHTML = modalHtml;
+                document.body.appendChild(modalDiv);
+
+                document.getElementById('confirm-delete-yes').addEventListener('click', () => {
+                    modalDiv.remove();
+                    resolve(true);
+                });
+                document.getElementById('confirm-delete-no').addEventListener('click', () => {
+                    modalDiv.remove();
+                    resolve(false);
+                });
+            });
+
+            if (!confirmDelete) {
+                showMessage("Penghapusan dibatalkan.", false);
+                return;
+            }
+
+            try {
+                const promptRef = doc(db, `artifacts/${appId}/users/${currentUserId}/prompts`, promptId); // Changed path
+                await deleteDoc(promptRef);
+                showMessage("Prompt berhasil dihapus.");
+            } catch (e) {
+                console.error("Error removing document: ", e);
+                showMessage("Error: Gagal menghapus prompt. Pastikan Anda adalah pemiliknya.", true);
+            }
+        }
 
     </script>
 </body>
