@@ -15,13 +15,25 @@
             background-color: #1a1a2e; /* Dark background */
             color: #e0e0e0; /* Light text */
             margin: 0;
-            padding: 20px;
+            padding: 20px; /* Base padding */
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
             box-sizing: border-box;
         }
+        /* Responsive padding for body */
+        @media (min-width: 640px) { /* sm breakpoint */
+            body {
+                padding: 24px; /* p-6 */
+            }
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            body {
+                padding: 32px; /* p-8 */
+            }
+        }
+
         .container {
             background-color: #2a2a4a; /* Slightly lighter dark background for container */
             border-radius: 15px;
@@ -37,23 +49,47 @@
             margin-bottom: 20px;
         }
         .app-title-main {
-            font-family: 'Orbitron', sans-serif; /* Modern digital font */
-            font-size: 2.8rem; /* Slightly larger for main title */
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem; /* Base size for mobile */
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 30px #00bfff, 0 0 40px #00bfff;
             animation: glow 1.5s ease-in-out infinite alternate;
-            display: block; /* Ensure it takes its own line */
-            line-height: 1.2; /* Adjust line height for spacing */
+            display: block;
+            line-height: 1.2;
         }
+        /* Responsive font sizes for main title */
+        @media (min-width: 640px) { /* sm breakpoint */
+            .app-title-main {
+                font-size: 2.8rem;
+            }
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .app-title-main {
+                font-size: 3.2rem; /* Slightly larger for desktop */
+            }
+        }
+
         .app-title-sub {
-            font-family: 'Inter', sans-serif; /* Standard font for sub-title */
-            font-size: 1.2rem; /* Smaller font for sub-title */
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem; /* Base size for mobile */
             font-weight: 600;
             color: #ff9900; /* Contrasting color (orange/gold) */
-            display: block; /* Ensure it takes its own line */
-            margin-top: 5px; /* Space between lines */
+            display: block;
+            margin-top: 5px;
         }
+        /* Responsive font sizes for sub-title */
+        @media (min-width: 640px) { /* sm breakpoint */
+            .app-title-sub {
+                font-size: 1.1rem;
+            }
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .app-title-sub {
+                font-size: 1.2rem;
+            }
+        }
+
         @keyframes glow {
             from {
                 text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff;
@@ -252,11 +288,15 @@
             <span class="app-title-main">GENERATOR PROMPT AI</span>
             <span class="app-title-sub">by Sing Sareh</span>
         </div>
-        <p class="text-center text-lg mb-8 text-gray-300">Isi bidang-bidang di bawah untuk membuat prompt yang sangat detail</p>
+        <p class="text-center text-base sm:text-lg mb-8 text-gray-300">Isi bidang-bidang di bawah untuk membuat prompt yang sangat detail</p>
 
-        <!-- User ID Display -->
-        <div class="text-center text-sm text-gray-500 mb-4" id="user-id-display">
-            Memuat pengguna...
+        <!-- User Status Message and Login Info Button -->
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-2 mb-4">
+            <span class="text-center text-sm text-gray-500" id="user-status-message">
+                Memuat status pengguna...
+            </span>
+            <button id="btn-google-auth" class="button-primary px-4 py-2 text-sm">Login dengan Google</button>
+            <button id="btn-logout" class="button-secondary px-4 py-2 text-sm hidden">Logout</button>
         </div>
 
         <!-- Navigation Tabs -->
@@ -614,7 +654,7 @@
     <script type="module">
         // Firebase Imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Global variables provided by Canvas environment
@@ -629,57 +669,9 @@
         let db;
         let auth;
         let currentUserId = null; // To store the authenticated user's ID
+        let isLoggedInUser = false; // Flag to determine if user is "logged in" (non-anonymous)
 
-        // Initialize Firebase and authenticate
-        async function initializeFirebase() {
-            try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                // Listen for auth state changes
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        currentUserId = user.uid;
-                        console.log("Authenticated as:", currentUserId);
-                        document.getElementById('user-id-display') && (document.getElementById('user-id-display').textContent = `ID Pengguna: ${currentUserId}`);
-                        // Load gallery immediately after authentication
-                        loadGalleryPrompts();
-                    } else {
-                        // Sign in anonymously if no user is authenticated
-                        try {
-                            const anonymousUser = await signInAnonymously(auth);
-                            currentUserId = anonymousUser.user.uid;
-                            console.log("Signed in anonymously as:", currentUserId);
-                            document.getElementById('user-id-display') && (document.getElementById('user-id-display').textContent = `ID Pengguna: ${currentUserId}`);
-                            loadGalleryPrompts();
-                        } catch (anonError) {
-                            console.error("Error signing in anonymously:", anonError);
-                            showMessage("Error: Gagal masuk secara anonim. Fitur penyimpanan mungkin tidak berfungsi.", true);
-                        }
-                    }
-                });
-
-                // Try to sign in with custom token if available (Canvas specific)
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    try {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } catch (tokenError) {
-                        console.warn("Custom auth token failed, attempting anonymous sign-in:", tokenError);
-                        // Fallback to anonymous sign-in is handled by onAuthStateChanged if user is null
-                    }
-                }
-
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                showMessage("Error: Gagal menginisialisasi Firebase. Fitur penyimpanan tidak tersedia.", true);
-            }
-        }
-
-        initializeFirebase();
-
-
-        // DOM Elements
+        // DOM Elements (Moved to top of script for proper initialization order)
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
         const additionalFeaturesDiv = document.getElementById('additional-features');
@@ -692,6 +684,99 @@
         const messageBox = document.getElementById('message-box'); // Message box element
         const galleryContentDiv = document.getElementById('gallery-content'); // Gallery content area
         const galleryLoadingIndicator = document.getElementById('gallery-loading-indicator'); // Gallery loading spinner
+        const btnGoogleAuth = document.getElementById('btn-google-auth'); // Google Login button
+        const btnLogout = document.getElementById('btn-logout'); // Logout button
+        const userStatusMessage = document.getElementById('user-status-message'); // User status message element
+
+
+        // Function to update button states based on isLoggedInUser flag
+        function updateButtonStates() {
+            const btnBuatAI = document.getElementById('btn-buat-ai');
+            const btnSimpanPrompt = document.getElementById('btn-simpan-prompt');
+            const additionalFeatureButtons = document.querySelectorAll('#additional-features button');
+            
+            if (isLoggedInUser) {
+                // User is logged in (non-anonymous)
+                btnBuatAI.classList.remove('button-disabled');
+                btnBuatAI.disabled = false;
+                btnSimpanPrompt.classList.remove('button-disabled');
+                btnSimpanPrompt.disabled = false;
+                additionalFeatureButtons.forEach(button => {
+                    button.classList.remove('button-disabled');
+                    button.disabled = false;
+                });
+                userStatusMessage.textContent = `Anda masuk sebagai: ${auth.currentUser.displayName || currentUserId.substring(0, 8) + '...'}`;
+                btnGoogleAuth.classList.add('hidden'); // Hide login button
+                btnLogout.classList.remove('hidden'); // Show logout button
+            } else {
+                // User is anonymous or not authenticated
+                btnBuatAI.classList.add('button-disabled');
+                btnBuatAI.disabled = true;
+                btnSimpanPrompt.classList.add('button-disabled');
+                btnSimpanPrompt.disabled = true;
+                additionalFeatureButtons.forEach(button => {
+                    button.classList.add('button-disabled');
+                    button.disabled = true;
+                });
+                userStatusMessage.textContent = `Anda masuk sebagai: ${currentUserId ? currentUserId.substring(0, 8) + '...' : 'Tamu'}`;
+                btnGoogleAuth.classList.remove('hidden'); // Show login button
+                btnLogout.classList.add('hidden'); // Hide logout button
+            }
+        }
+
+        // Initialize Firebase and authenticate
+        async function initializeFirebase() {
+            try {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Listen for auth state changes
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        currentUserId = user.uid;
+                        // A user is considered "logged in" if they are not anonymous
+                        isLoggedInUser = !user.isAnonymous;
+                        console.log("Authenticated as:", currentUserId, "Is Anonymous:", user.isAnonymous, "Is Logged In (for AI):", isLoggedInUser);
+                        updateButtonStates(); // Update button states based on new login status
+                        loadGalleryPrompts(); // Load gallery after user is known
+                    } else {
+                        // No user is authenticated, attempt anonymous sign-in
+                        isLoggedInUser = false;
+                        currentUserId = null; // Clear userId if truly unauthenticated
+                        updateButtonStates(); // Update button states to disabled
+                        try {
+                            await signInAnonymously(auth);
+                        } catch (anonError) {
+                            console.error("Error signing in anonymously:", anonError);
+                            showMessage("Error: Gagal masuk secara anonim. Fitur penyimpanan mungkin tidak berfungsi.", true);
+                        }
+                    }
+                });
+
+                // Attempt to sign in with custom token first if available (Canvas specific)
+                // This is typically for the developer's privileged access
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } catch (tokenError) {
+                        console.warn("Custom auth token failed, attempting anonymous sign-in (if not already handled):", tokenError);
+                        // onAuthStateChanged will handle anonymous sign-in if user is null after this.
+                    }
+                } else {
+                    // If no custom token, ensure initial state disables AI features
+                    // and onAuthStateChanged will handle anonymous sign-in.
+                    updateButtonStates();
+                }
+
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showMessage("Error: Gagal menginisialisasi Firebase. Fitur penyimpanan tidak tersedia.", true);
+            }
+        }
+
+        initializeFirebase();
+
 
         // Input fields for Gambar tab
         const gambarInputs = {
@@ -804,6 +889,11 @@
 
         // Function to call Gemini API
         async function callGeminiAPI(prompt, schema = null, targetArea = 'main') {
+            if (!isLoggedInUser) {
+                showMessage("Fitur AI hanya tersedia untuk pengguna yang login. Silakan gunakan 'Buat Manual'.", true);
+                return "Error: Fitur AI tidak tersedia.";
+            }
+
             showLoading(true, targetArea);
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
@@ -865,7 +955,7 @@
                         <textarea id="dialog-karakter-${i}" rows="2" placeholder="Dialog untuk karakter ${i}"></textarea>
                     `;
                     dialogFieldsContainer.appendChild(inputGroup);
-                    // Add the newly created textarea to the videoInputs object
+                    // Add the newly created textarea to theInputs object
                     videoInputs[`dialogKarakter${i}`] = document.getElementById(`dialog-karakter-${i}`);
                 }
             }
@@ -1026,18 +1116,76 @@
 
         // Event listener for Buat Manual button
         document.getElementById('btn-buat-manual').addEventListener('click', () => {
+            // For "Buat Manual", we just concatenate the current input values
+            const activeTabContent = document.querySelector('.tab-content:not(.hidden)');
+            let manualPrompt = '';
+
+            if (activeTabContent.id === 'tab-content-gambar') {
+                manualPrompt = Object.keys(gambarInputs).map(key => {
+                    const value = gambarInputs[key].value.trim();
+                    const label = gambarInputs[key].previousElementSibling.textContent.replace('(Opsional)', '').trim();
+                    return value ? `${label}: ${value}` : '';
+                }).filter(Boolean).join('\n');
+            } else if (activeTabContent.id === 'tab-content-video-tunggal') {
+                const params = [];
+                for (const key of ['subjek', 'karakterUtama', 'karakterPendukung', 'aksi', 'pengaturan', 'suasanaEmosi', 'durasi', 'pergerakanKamera', 'gayaVideo', 'bahasaDialog', 'backsound', 'efekSuara', 'ideTambahan', 'promptNegatif']) {
+                    const inputElement = videoInputs[key];
+                    if (inputElement && inputElement.value.trim()) {
+                        let label = inputElement.previousElementSibling.textContent.replace('(Opsional)', '').trim();
+                        params.push(`${label}: ${inputElement.value.trim()}`);
+                    }
+                }
+                const numCharacters = parseInt(videoInputs.jumlahKarakter.value);
+                if (!isNaN(numCharacters) && numCharacters > 0) {
+                    let dialogs = [];
+                    for (let i = 1; i <= numCharacters; i++) {
+                        const dialogInput = videoInputs[`dialogKarakter${i}`];
+                        if (dialogInput && dialogInput.value.trim()) {
+                            dialogs.push(`Karakter ${i}: "${dialogInput.value.trim()}"`);
+                        }
+                    }
+                    if (dialogs.length > 0) {
+                        params.push(`Dialog: ${dialogs.join(' | ')}`);
+                    }
+                }
+                manualPrompt = params.filter(Boolean).join('\n');
+            } else if (activeTabContent.id === 'tab-content-sutradara') {
+                manualPrompt = Object.keys(sutradaraInputs).map(key => {
+                    const value = sutradaraInputs[key].value.trim();
+                    const label = sutradaraInputs[key].previousElementSibling.textContent.replace('(Opsional)', '').trim();
+                    return value ? `${label}: ${value}` : '';
+                }).filter(Boolean).join('\n');
+                manualPrompt = `Skenario Video Manual:\n${manualPrompt}`;
+            } else if (activeTabContent.id === 'tab-content-teks') {
+                manualPrompt = Object.keys(textInputs).map(key => {
+                    const value = textInputs[key].value.trim();
+                    const label = textInputs[key].previousElementSibling.textContent.replace('(Opsional)', '').trim();
+                    return value ? `${label}: ${value}` : '';
+                }).filter(Boolean).join('\n');
+                manualPrompt = `Teks Manual:\n${manualPrompt}`;
+            } else {
+                manualPrompt = "Tidak ada input yang terdeteksi untuk tab ini.";
+            }
+
             resultDiv.innerHTML = `
                 <h4 class="text-lg font-semibold text-gray-100 mb-2">Prompt Manual:</h4>
-                <textarea id="manual-prompt-input" class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" rows="10" placeholder="Ketik prompt Anda di sini..."></textarea>
+                <textarea id="manual-prompt-output" class="w-full p-3 rounded-lg border border-gray-600 bg-gray-700 text-gray-200" rows="10" readonly>${manualPrompt}</textarea>
             `;
             additionalContentDiv.innerHTML = ''; // Clear additional results area
             additionalResultsArea.classList.add('hidden'); // Hide additional results area
-            lastEnglishPrompt = ''; // Clear stored prompt
-            lastIndonesianPrompt = '';
+            lastEnglishPrompt = manualPrompt; // Store manual prompt for potential translation
+            lastIndonesianPrompt = manualPrompt; // Assuming manual input is in Indonesian
         });
+
 
         // Event listener for Buat dengan AI button
         document.getElementById('btn-buat-ai').addEventListener('click', async () => {
+            // Check if AI features are enabled for the current user
+            if (!isLoggedInUser) {
+                showMessage("Fitur AI hanya tersedia untuk pengguna yang login. Silakan gunakan 'Buat Manual'.", true);
+                return;
+            }
+
             const activeTabContent = document.querySelector('.tab-content:not(.hidden)');
             let promptText = '';
             let schema = null; // Default schema for single prompt output
@@ -1079,7 +1227,7 @@
                 for (const key of ['subjek', 'karakterUtama', 'karakterPendukung', 'aksi', 'pengaturan', 'suasanaEmosi', 'durasi', 'pergerakanKamera', 'gayaVideo', 'bahasaDialog', 'backsound', 'efekSuara', 'ideTambahan', 'promptNegatif']) {
                     const inputElement = videoInputs[key];
                     if (inputElement && inputElement.value.trim()) {
-                        let label = inputElement.previousElementSibling ? inputElement.previousElementSibling.textContent.replace('(Opsional)', '').trim() : key;
+                        let label = inputElement.previousElementSibling.textContent.replace('(Opsional)', '').trim();
                         params.push(`${label}: ${inputElement.value.trim()}`);
                     }
                 }
@@ -1216,10 +1364,13 @@
 
         // Function to handle additional feature buttons
         async function handleAdditionalFeature(feature) {
-            // Note: Additional features are currently only designed for 'Gambar' tab.
-            // If you wish to extend them to 'Teks' or 'Video Tunggal',
-            // you'll need to adapt the logic here to use `lastEnglishPrompt`
-            // which might contain a video prompt or a text output.
+            // Check if AI features are enabled for the current user
+            if (!isLoggedInUser) {
+                additionalContentDiv.innerHTML = "<p class='text-yellow-400'>Fitur AI hanya tersedia untuk pengguna yang login. Silakan gunakan 'Buat Manual'.</p>";
+                additionalResultsArea.classList.remove('hidden');
+                return;
+            }
+
             if (!lastEnglishPrompt) {
                 additionalContentDiv.innerHTML = '<p class="text-yellow-400">Silakan buat prompt utama terlebih dahulu menggunakan "Buat dengan AI".</p>';
                 additionalResultsArea.classList.remove('hidden'); // Show the area even with a warning
@@ -1448,6 +1599,11 @@
                 showMessage("Anda belum terautentikasi. Silakan coba lagi.", true);
                 return;
             }
+            // Only allow saving if AI feature is active (i.e., isLoggedInUser is true)
+            if (!isLoggedInUser) {
+                showMessage("Anda perlu login untuk menyimpan prompt yang dihasilkan AI.", true);
+                return;
+            }
             if (!lastEnglishPrompt) {
                 showMessage("Tidak ada prompt untuk disimpan. Silakan buat prompt terlebih dahulu.", true);
                 return;
@@ -1486,7 +1642,8 @@
                 });
                 showMessage("Prompt berhasil disimpan!");
                 console.log("Document written with ID: ", docRef.id);
-            } catch (e) {
+            }
+            catch (e) {
                 console.error("Error adding document: ", e);
                 showMessage("Error: Gagal menyimpan prompt.", true);
             }
@@ -1495,7 +1652,9 @@
         // Function to load all saved prompts from Firestore
         async function loadGalleryPrompts() {
             if (!db || !currentUserId) { // Ensure currentUserId is available
-                console.warn("Firestore atau pengguna belum terautentikasi. Mencoba memuat galeri lagi...");
+                console.warn("Firestore atau pengguna belum terautentikasi. Tidak dapat memuat galeri.");
+                galleryContentDiv.innerHTML = '<p class="text-center text-gray-500">Silakan masuk untuk melihat prompt Anda.</p>';
+                showLoading(false, 'gallery');
                 return;
             }
             showLoading(true, 'gallery');
