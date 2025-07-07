@@ -252,7 +252,7 @@
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex justify-center mb-8 space-x-2">
+        <div class="flex flex-wrap justify-center gap-2 mb-8"> <!-- Added flex-wrap and gap-2 -->
             <button id="tab-gambar" class="tab-button active">🖼️ Gambar</button>
             <button id="tab-video-tunggal" class="tab-button">🎬 Video Tunggal</button>
             <button id="tab-sutradara" class="tab-button">🎥 Sutradara</button>
@@ -373,7 +373,7 @@
                         <option value="Pan">Pan (Geser Horizontal)</option>
                         <option value="Tilt">Tilt (Geser Vertikal)</option>
                         <option value="Zoom In">Zoom In</option>
-                        <option value="Zoom Out">Zoom Out</option>
+                        <option value="Zoom Out">Zoom Out</soption>
                         <option value="Dolly In">Dolly In (Maju ke Subjek)</option>
                         <option value="Dolly Out">Dolly Out (Mundur dari Subjek)</option>
                         <option value="Orbit">Orbit (Mengelilingi Subjek)</option>
@@ -1271,7 +1271,7 @@
 
             // Clear additional results area when performing translation
             additionalContentDiv.innerHTML = '';
-            additionalResultsArea.classList.remove('hidden');
+            additionalResultsArea.classList.add('hidden');
 
             let textToTranslate = lastEnglishPrompt; // Default to English prompt for translation
 
