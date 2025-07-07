@@ -265,19 +265,99 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="input-group">
                     <label for="gaya-gambar">Gaya Gambar</label>
-                    <input type="text" id="gaya-gambar" placeholder="Contoh: Fotorealistik, Animasi 3D, Seni Digital">
+                    <select id="gaya-gambar">
+                        <option value="">Pilih</option>
+                        <option value="Fotorealistik">Fotorealistik</option>
+                        <option value="Animasi 3D">Animasi 3D</option>
+                        <option value="Seni Digital">Seni Digital</option>
+                        <option value="Kartun">Kartun</option>
+                        <option value="Sketsa">Sketsa</option>
+                        <option value="Cat Air">Cat Air</option>
+                        <option value="Gaya Komik">Gaya Komik</option>
+                        <option value="Pixel Art">Pixel Art</option>
+                        <option value="Gaya Impresionistik">Gaya Impresionistik</option>
+                        <option value="Gaya Abstrak">Gaya Abstrak</option>
+                        <option value="Minimalis">Minimalis</option>
+                        <option value="Gaya Cyberpunk">Gaya Cyberpunk</option>
+                        <option value="Gaya Steampunk">Gaya Steampunk</option>
+                        <option value="Vaporwave">Vaporwave</option>
+                        <option value="Gaya Renaisans">Gaya Renaisans</option>
+                        <option value="Gaya Barok">Gaya Barok</option>
+                        <option value="Gaya Art Deco">Gaya Art Deco</option>
+                        <option value="Gaya Futuristik">Gaya Futuristik</option>
+                        <option value="Gaya Fantasi Gelap">Gaya Fantasi Gelap</option>
+                        <option value="Gaya Realisme Magis">Gaya Realisme Magis</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="kategori-gambar">Kategori Gambar</label>
-                    <input type="text" id="kategori-gambar" placeholder="Contoh: Manusia/Potret, Alam/Lanskap, Teknologi">
+                    <select id="kategori-gambar">
+                        <option value="">Pilih</option>
+                        <option value="Manusia/Potret">Manusia/Potret</option>
+                        <option value="Alam/Lanskap">Alam/Lanskap</option>
+                        <option value="Hewan/Makhluk">Hewan/Makhluk</option>
+                        <option value="Teknologi/Fiksi Ilmiah">Teknologi/Fiksi Ilmiah</option>
+                        <option value="Fantasi">Fantasi</option>
+                        <option value="Arsitektur/Bangunan">Arsitektur/Bangunan</option>
+                        <option value="Makanan/Minuman">Makanan/Minuman</option>
+                        <option value="Kendaraan">Kendaraan</option>
+                        <option value="Abstrak">Abstrak</option>
+                        <option value="Pendidikan">Pendidikan</option>
+                        <option value="Sejarah">Sejarah</option>
+                        <option value="Budaya">Budaya</option>
+                        <option value="Olahraga">Olahraga</option>
+                        <option value="Musik">Musik</option>
+                        <option value="Horor">Horor</option>
+                        <option value="Misteri">Misteri</option>
+                        <option value="Ruang Angkasa">Ruang Angkasa</option>
+                        <option value="Bawah Laut">Bawah Laut</option>
+                        <option value="Makro">Makro</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="sudut-kamera">Sudut Kamera</label>
-                    <input type="text" id="sudut-kamera" placeholder="Contoh: Low Angle, High Angle, Close-up">
+                    <select id="sudut-kamera">
+                        <option value="">Pilih</option>
+                        <option value="Low Angle">Low Angle (Kamera di bawah subjek, membuat subjek terlihat besar/berkuasa)</option>
+                        <option value="High Angle">High Angle (Kamera di atas subjek, membuat subjek terlihat kecil/lemah)</option>
+                        <option value="Close-up">Close-up (Fokus dekat pada objek/wajah, mengisi sebagian besar bingkai)</option>
+                        <option value="Wide Shot">Wide Shot (Menunjukkan seluruh subjek dan lingkungan luasnya)</option>
+                        <option value="Medium Shot">Medium Shot (Menunjukkan subjek dari pinggang ke atas)</option>
+                        <option value="Extreme Close-up">Extreme Close-up (Fokus sangat dekat pada detail spesifik, seperti mata atau jari)</option>
+                        <option value="Over-the-Shoulder Shot">Over-the-Shoulder Shot (Kamera di belakang bahu satu karakter, menghadap karakter lain)</option>
+                        <option value="Point of View">Point of View (Menunjukkan apa yang dilihat oleh karakter)</option>
+                        <option value="Bird's Eye View">Bird's Eye View (Sudut pandang dari atas, melihat ke bawah pada subjek, seringkali untuk menunjukkan lokasi)</option>
+                        <option value="Worm's Eye View">Worm's Eye View (Sudut pandang dari bawah, melihat ke atas pada subjek)</option>
+                        <option value="Dutch Angle">Dutch Angle (Kamera dimiringkan ke satu sisi, menciptakan efek disorientasi)</option>
+                        <option value="Tracking Shot">Tracking Shot (Kamera bergerak mengikuti subjek, biasanya di atas rel atau dolly)</option>
+                        <option value="Crane Shot">Crane Shot (Kamera bergerak vertikal atau melintasi ruang menggunakan crane)</option>
+                        <option value="Handheld Shot">Handheld Shot (Kamera dipegang tangan, menciptakan kesan realistis dan tidak stabil)</option>
+                        <option value="Static Shot">Static Shot (Kamera diam, tidak bergerak)</option>
+                        <option value="Mengikuti Objek">Mengikuti Objek (Kamera terus bergerak mengikuti pergerakan objek utama)</option>
+                        <option value="Zoom Cepat">Zoom Cepat (Pembesaran/pengecilan cepat untuk efek dramatis)</option>
+                        <option value="Gerakan Lambat">Gerakan Lambat (Perekaman dengan frame rate tinggi untuk efek dramatis)</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="waktu-pencahayaan">Waktu/Pencahayaan</label>
-                    <input type="text" id="waktu-pencahayaan" placeholder="Contoh: Golden Hour, Night Scene, Studio Lighting">
+                    <select id="waktu-pencahayaan">
+                        <option value="">Pilih</option>
+                        <option value="Golden Hour">Golden Hour</option>
+                        <option value="Blue Hour">Blue Hour</option>
+                        <option value="Siang Hari Cerah">Siang Hari Cerah</option>
+                        <option value="Malam Hari">Malam Hari</option>
+                        <option value="Cahaya Studio">Cahaya Studio</option>
+                        <option value="Cahaya Lilin">Cahaya Lilin</option>
+                        <option value="Senja">Senja</option>
+                        <option value="Fajar">Fajar</option>
+                        <option value="Mendung">Mendung</option>
+                        <option value="Cahaya Neon">Cahaya Neon</option>
+                        <option value="Cahaya Alami">Cahaya Alami</option>
+                        <option value="Cahaya Buatan">Cahaya Buatan</option>
+                        <option value="Siluet">Siluet</option>
+                        <option value="Kontras Tinggi">Kontras Tinggi</option>
+                        <option value="Cahaya Lembut">Cahaya Lembut</option>
+                    </select>
                 </div>
                 <div class="input-group md:col-span-2">
                     <label for="subjek-gambar">Subjek (Siapa/Apa?)</label>
@@ -293,7 +373,24 @@
                 </div>
                 <div class="input-group">
                     <label for="suasana-emosi-gambar">Suasana/Emosi Utama</label>
-                    <input type="text" id="suasana-emosi-gambar" placeholder="Contoh: Tenang, Dramatis, Gembira">
+                    <select id="suasana-emosi-gambar">
+                        <option value="">Pilih</option>
+                        <option value="Tenang">Tenang</option>
+                        <option value="Dramatis">Dramatis</option>
+                        <option value="Gembira">Gembira</option>
+                        <option value="Sedih">Sedih</option>
+                        <option value="Misterius">Misterius</option>
+                        <option value="Menegangkan">Menegangkan</option>
+                        <option value="Inspiratif">Inspiratif</option>
+                        <option value="Romantis">Romantis</option>
+                        <option value="Suram">Suram</option>
+                        <option value="Enerjik">Enerjik</option>
+                        <option value="Nostalgia">Nostalgia</option>
+                        <option value="Fantasi">Fantasi</option>
+                        <option value="Retro">Retro</option>
+                        <option value="Modern">Modern</option>
+                        <option value="Klasik">Klasik</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="bahan-tekstur-gambar">Bahan/Tekstur (Opsional)</label>
@@ -314,6 +411,53 @@
                 <div class="input-group">
                     <label for="resolusi-gambar">Resolusi (Opsional)</label>
                     <input type="text" id="resolusi-gambar" placeholder="Contoh: 4K, 8K, Ultra HD">
+                </div>
+                <div class="input-group">
+                    <label for="komposisi-gambar">Komposisi (Opsional)</label>
+                    <select id="komposisi-gambar">
+                        <option value="">Pilih</option>
+                        <option value="Aturan Sepertiga">Aturan Sepertiga</option>
+                        <option value="Golden Ratio">Golden Ratio</option>
+                        <option value="Garis Pemandu">Garis Pemandu</option>
+                        <option value="Simetri">Simetri</option>
+                        <option value="Asimetri">Asimetri</option>
+                        <option value="Segitiga Emas">Segitiga Emas</option>
+                        <option value="Ruang Negatif">Ruang Negatif</option>
+                        <option value="Bingkai Alami">Bingkai Alami</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="palet-warna-gambar">Palet Warna (Opsional)</label>
+                    <select id="palet-warna-gambar">
+                        <option value="">Pilih</option>
+                        <option value="Monokromatik">Monokromatik</option>
+                        <option value="Analog">Analog</option>
+                        <option value="Komplementer">Komplementer</option>
+                        <option value="Triadik">Triadik</option>
+                        <option value="Hangat">Hangat</option>
+                        <option value="Dingin">Dingin</option>
+                        <option value="Cerah">Cerah</option>
+                        <option value="Muted">Muted</option>
+                        <option value="Pastel">Pastel</option>
+                        <option value="Gelap">Gelap</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="detail-fokus-gambar">Detail & Fokus (Opsional)</label>
+                    <select id="detail-fokus-gambar">
+                        <option value="">Pilih</option>
+                        <option value="Sangat Detail">Sangat Detail</option>
+                        <option value="Minimalis">Minimalis</option>
+                        <option value="Fokus Tajam">Fokus Tajam</option>
+                        <option value="Fokus Lembut">Fokus Lembut</option>
+                        <option value="Kedalaman Bidang Dangkal">Kedalaman Bidang Dangkal</option>
+                        <option value="Kedalaman Bidang Dalam">Kedalaman Bidang Dalam</option>
+                        <option value="Efek Bokeh">Efek Bokeh</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="referensi-artis-gambar">Referensi Artis/Fotografer (Opsional)</label>
+                    <input type="text" id="referensi-artis-gambar" placeholder="Contoh: Gaya Van Gogh, Pencahayaan Rembrandt">
                 </div>
                 <div class="input-group md:col-span-2">
                     <label for="ide-tambahan-gambar">Ide Tambahan (Opsional)</label>
@@ -364,7 +508,19 @@
                 </div>
                 <div class="input-group">
                     <label for="suasana-emosi-video">Suasana/Emosi Video</label>
-                    <input type="text" id="suasana-emosi-video" placeholder="Contoh: Inspiratif, Dinamis, Tenang">
+                    <select id="suasana-emosi-video">
+                        <option value="">Pilih</option>
+                        <option value="Inspiratif">Inspiratif</option>
+                        <option value="Dinamis">Dinamis</option>
+                        <option value="Tenang">Tenang</option>
+                        <option value="Menegangkan">Menegangkan</option>
+                        <option value="Melankolis">Melankolis</option>
+                        <option value="Gembira">Gembira</option>
+                        <option value="Misterius">Misterius</option>
+                        <option value="Epik">Epik</option>
+                        <option value="Komedi">Komedi</option>
+                        <option value="Horor">Horor</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="pergerakan-kamera">Pergerakan Kamera</label>
@@ -373,11 +529,14 @@
                         <option value="Pan">Pan (Geser Horizontal)</option>
                         <option value="Tilt">Tilt (Geser Vertikal)</option>
                         <option value="Zoom In">Zoom In</option>
-                        <option value="Zoom Out">Zoom Out</soption>
+                        <option value="Zoom Out">Zoom Out</option>
                         <option value="Dolly In">Dolly In (Maju ke Subjek)</option>
                         <option value="Dolly Out">Dolly Out (Mundur dari Subjek)</option>
                         <option value="Orbit">Orbit (Mengelilingi Subjek)</option>
                         <option value="Static">Static (Diam)</option>
+                        <option value="Mengikuti Objek">Mengikuti Objek (Kamera terus bergerak mengikuti pergerakan objek utama)</option>
+                        <option value="Zoom Cepat">Zoom Cepat (Pembesaran/pengecilan cepat untuk efek dramatis)</option>
+                        <option value="Gerakan Lambat">Gerakan Lambat (Perekaman dengan frame rate tinggi untuk efek dramatis)</option>
                     </select>
                 </div>
                 <!-- Changed Gaya Video to dropdown -->
@@ -415,6 +574,48 @@
                 <div class="input-group md:col-span-2">
                     <label for="efek-suara-video">Efek Suara (Opsional)</label>
                     <textarea id="efek-suara-video" rows="2" placeholder="Contoh: Suara ledakan, Deru mesin, Langkah kaki"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="jenis-shot-video">Jenis Shot (Opsional)</label>
+                    <select id="jenis-shot-video">
+                        <option value="">Pilih</option>
+                        <option value="Establishing Shot">Establishing Shot (Menunjukkan lokasi secara keseluruhan)</option>
+                        <option value="Master Shot">Master Shot (Perekaman seluruh adegan dari awal hingga akhir dalam satu bidikan)</option>
+                        <option value="Two-Shot">Two-Shot (Menampilkan dua subjek, biasanya dalam percakapan)</option>
+                        <option value="POV Shot">POV Shot (Point of View: Bidikan dari sudut pandang karakter)</option>
+                        <option value="Insert Shot">Insert Shot (Bidikan detail dari objek penting dalam adegan)</option>
+                        <option value="Cutaway Shot">Cutaway Shot (Bidikan yang memotong dari adegan utama ke sesuatu yang lain, lalu kembali lagi)</option>
+                        <option value="Close-up">Close-up (Fokus dekat pada objek/wajah)</option>
+                        <option value="Medium Shot">Medium Shot (Menampilkan subjek dari pinggang ke atas)</option>
+                        <option value="Long Shot">Long Shot (Menampilkan subjek dari kejauhan, menonjolkan lingkungan)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="transisi-video">Transisi (Opsional)</label>
+                    <select id="transisi-video">
+                        <option value="">Pilih</option>
+                        <option value="Cut">Cut (Perpindahan langsung antar bidikan)</option>
+                        <option value="Dissolve">Dissolve (Satu bidikan memudar sementara bidikan berikutnya muncul)</option>
+                        <option value="Wipe">Wipe (Satu bidikan mendorong bidikan berikutnya keluar dari bingkai)</option>
+                        <option value="Fade In/Out">Fade In/Out (Memudar dari/ke warna solid, biasanya hitam)</option>
+                        <option value="Match Cut">Match Cut (Transisi yang mulus dari satu bidikan ke bidikan lain melalui kesamaan visual atau audio)</option>
+                        <option value="Jump Cut">Jump Cut (Transisi yang tiba-tiba dan disorientasi, seringkali untuk menunjukkan waktu berlalu cepat)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="kecepatan-gerak-video">Kecepatan Gerak (Opsional)</label>
+                    <select id="kecepatan-gerak-video">
+                        <option value="">Pilih</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Slow Motion">Slow Motion</option>
+                        <option value="Fast Motion">Fast Motion</option>
+                        <option value="Time-lapse">Time-lapse</option>
+                        <option value="Hyperlapse">Hyperlapse</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="waktu-dalam-video">Waktu dalam Video (Opsional)</label>
+                    <input type="text" id="waktu-dalam-video" placeholder="Contoh: Awal adegan, Puncak konflik">
                 </div>
 
                 <div class="input-group md:col-span-2">
@@ -468,12 +669,65 @@
                     <label for="alur-cerita-singkat">Alur Cerita Singkat</label>
                     <textarea id="alur-cerita-singkat" rows="4" placeholder="Garis besar cerita atau narasi"></textarea>
                 </div>
+                <div class="input-group">
+                    <label for="genre-sutradara">Genre (Opsional)</label>
+                    <select id="genre-sutradara">
+                        <option value="">Pilih</option>
+                        <option value="Action">Action</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Horor">Horor</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Documentary">Documentary</option>
+                        <option value="Musical">Musical</option>
+                        <option value="Fantasi">Fantasi</option>
+                        <option value="Romantis">Romantis</option>
+                        <option value="Misteri">Misteri</option>
+                        <option value="Animasi">Animasi</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="struktur-narasi-sutradara">Struktur Narasi (Opsional)</label>
+                    <select id="struktur-narasi-sutradara">
+                        <option value="">Pilih</option>
+                        <option value="Linear">Linear (Alur cerita berurutan dari awal hingga akhir)</option>
+                        <option value="Non-linear">Non-linear (Alur cerita tidak berurutan, bisa melompat waktu)</option>
+                        <option value="Episodik">Episodik (Terdiri dari serangkaian episode atau segmen yang berdiri sendiri)</option>
+                        <option value="Montage">Montage (Urutan bidikan pendek yang cepat untuk menyampaikan informasi atau emosi dalam waktu singkat)</option>
+                        <option value="Flashback">Flashback (Kembali ke masa lalu untuk menjelaskan peristiwa saat ini)</option>
+                        <option value="Flashforward">Flashforward (Melompat ke masa depan untuk menunjukkan hasil atau peristiwa mendatang)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="tone-sutradara">Tone/Mood Keseluruhan (Opsional)</label>
+                    <select id="tone-sutradara">
+                        <option value="">Pilih</option>
+                        <option value="Optimistic">Optimistic</option>
+                        <option value="Dark">Dark</option>
+                        <option value="Whimsical">Whimsical</option>
+                        <option value="Serious">Serious</option>
+                        <option value="Suspenseful">Suspenseful</option>
+                        <option value="Inspiratif">Inspiratif</option>
+                        <option value="Melankolis">Melankolis</option>
+                        <option value="Humor">Humor</option>
+                        <option value="Dramatis">Dramatis</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="target-audiens-sutradara">Target Audiens (Opsional)</label>
+                    <input type="text" id="target-audiens-sutradara" placeholder="Contoh: Anak-anak, Remaja, Dewasa, Umum">
+                </div>
                 <div class="input-group md:col-span-2">
-                    <label for="ide-tambahan-skenario">Ide Tambahan Skenario (Opsional)</label>
+                    <label for="pesan-tema-sutradara">Pesan/Tema Utama (Opsional)</label>
+                    <textarea id="pesan-tema-sutradara" rows="2" placeholder="Contoh: Pentingnya persahabatan, Bahaya teknologi"></textarea>
+                </div>
+                <div class="input-group md:col-span-2">
+                    <label for="ide-tambahan-skenario">Ide Tambahan (Opsional)</label>
                     <textarea id="ide-tambahan-skenario" rows="2" placeholder="Detail tambahan atau instruksi khusus untuk skenario"></textarea>
                 </div>
                 <div class="input-group md:col-span-2">
-                    <label for="prompt-negatif-skenario">Prompt Negatif Skenario (Opsional)</label>
+                    <label for="prompt-negatif-skenario">Prompt Negatif (Opsional)</label>
                     <textarea id="prompt-negatif-skenario" rows="2" placeholder="Apa yang tidak diinginkan dalam skenario"></textarea>
                 </div>
             </div>
@@ -519,16 +773,51 @@
                         <option value="Panjang (>5 paragraf)">Panjang (>5 paragraf)</option>
                     </select>
                 </div>
+                <div class="input-group">
+                    <label for="struktur-teks">Struktur Teks (Opsional)</label>
+                    <select id="struktur-teks">
+                        <option value="">Pilih</option>
+                        <option value="Esai">Esai</option>
+                        <option value="Laporan">Laporan</option>
+                        <option value="Cerpen">Cerpen</option>
+                        <option value="Puisi">Puisi</option>
+                        <option value="Skrip">Skrip</option>
+                        <option value="Salinan Pemasaran">Salinan Pemasaran</option>
+                        <option value="Posting Blog">Posting Blog</option>
+                        <option value="Artikel Berita">Artikel Berita</option>
+                        <option value="Ulasan Produk">Ulasan Produk</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="nada-teks">Nada (Tone) (Opsional)</label>
+                    <select id="nada-teks">
+                        <option value="">Pilih</option>
+                        <option value="Formal">Formal</option>
+                        <option value="Informal">Informal</option>
+                        <option value="Humor">Humor</option>
+                        <option value="Serius">Serius</option>
+                        <option value="Sarkastik">Sarkastik</option>
+                        <option value="Empati">Empati</option>
+                        <option value="Mendesak">Mendesak</option>
+                        <option value="Tenang">Tenang</option>
+                        <option value="Antusias">Antusias</option>
+                        <option value="Kritis">Kritis</option>
+                    </select>
+                </div>
                 <div class="input-group md:col-span-2">
                     <label for="kata-kunci-utama-teks">Kata Kunci Utama</label>
                     <input type="text" id="kata-kunci-utama-teks" placeholder="Contoh: AI, etika, masa depan">
                 </div>
                 <div class="input-group md:col-span-2">
-                    <label for="ide-tambahan-teks">Ide Tambahan Teks (Opsional)</label>
+                    <label for="sumber-referensi-teks">Sumber Referensi (Opsional)</label>
+                    <textarea id="sumber-referensi-teks" rows="2" placeholder="Contoh: Berdasarkan penelitian terbaru, Mengutip ahli sejarah"></textarea>
+                </div>
+                <div class="input-group md:col-span-2">
+                    <label for="ide-tambahan-teks">Ide Tambahan (Opsional)</label>
                     <textarea id="ide-tambahan-teks" rows="2" placeholder="Detail tambahan atau instruksi khusus untuk teks"></textarea>
                 </div>
                 <div class="input-group md:col-span-2">
-                    <label for="prompt-negatif-teks">Prompt Negatif Teks (Opsional)</label>
+                    <label for="prompt-negatif-teks">Prompt Negatif (Opsional)</label>
                     <textarea id="prompt-negatif-teks" rows="2" placeholder="Apa yang tidak diinginkan dalam teks"></textarea>
                 </div>
             </div>
@@ -569,6 +858,7 @@
             <div class="input-group w-48">
                 <label for="terjemahan-bahasa">Terjemahkan Hasil ke</label>
                 <select id="terjemahan-bahasa">
+                    <option value="">Pilih</option>
                     <option value="en">Inggris</option>
                     <option value="id">Indonesia</option>
                     <option value="es">Spanyol</option>
@@ -604,31 +894,8 @@
     <div id="message-box" class="message-box hidden"></div>
 
     <script type="module">
-        // Firebase Imports (Removed all Firebase Auth imports)
-        // import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // import { getAuth, signInAnonymously, signInWithCustomToken, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // Global variables provided by Canvas environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // Removed firebaseConfig as it's no longer used for Auth
-        // const firebaseConfig = {
-        //     apiKey: "AIzaSyD6QXppUXJGEUiIjoNNtelAcx6SJINIdWY",
-        //     authDomain: "ai-genert.firebaseapp.com",
-        //     projectId: "ai-genert",
-        //     storageBucket: "ai-genert.firebasestorage.app",
-        //     messagingSenderId: "1023520312528",
-        //     appId: "1:1023520312528:web:94b9f0b15d36a060fde2d5",
-        //     measurementId: "G-SB5KJLK9D1"
-        // };
-
         // API Key for Gemini (empty string will be filled by Canvas runtime)
         const apiKey = "AIzaSyD6QXppUXJGEUiIjoNNtelAcx6SJINIdWY"; // Updated with provided API key
-
-        // Firebase Initialization (Removed all Firebase Auth related variables and calls)
-        // let app;
-        // let auth;
-        // let currentUserId = null;
-        // let isLoggedInUser = false; // Always true now
 
         // DOM Elements (Moved to top of script for proper initialization order)
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -641,12 +908,6 @@
         const loadingIndicatorAdditional = document.getElementById('loading-indicator-additional'); // Loading for additional features
         const translationDropdown = document.getElementById('terjemahan-bahasa');
         const messageBox = document.getElementById('message-box'); // Message box element
-        // Removed gallery related DOM elements as gallery tab is removed
-        // const galleryContentDiv = document.getElementById('gallery-content');
-        // const galleryLoadingIndicator = document.getElementById('gallery-loading-indicator');
-        // Removed login/logout buttons as they are no longer needed
-        // const btnGoogleAuth = document.getElementById('btn-google-auth');
-        // const btnLogout = document.getElementById('btn-logout');
         const userStatusMessage = document.getElementById('user-status-message'); // User status message element
 
 
@@ -663,18 +924,7 @@
                 button.disabled = false;
             });
             userStatusMessage.textContent = `Fitur AI aktif.`; // Always active
-            // No login/logout buttons to manage
         }
-
-        // Removed initializeFirebase() and all its calls
-        // Removed currentUserId and isLoggedInUser logic
-        // Removed loadGalleryPrompts() and its calls
-
-        // Removed all Firebase Auth related variables and calls
-        // let app;
-        // let auth;
-        // let currentUserId = null;
-        // let isLoggedInUser = false; // Always true now
 
         // Call updateButtonStates directly on load since no async auth is needed
         document.addEventListener('DOMContentLoaded', updateButtonStates);
@@ -695,6 +945,10 @@
             usiaEra: document.getElementById('usia-era-gambar'),
             rasioAspek: document.getElementById('rasio-aspek-gambar'),
             resolusi: document.getElementById('resolusi-gambar'),
+            komposisi: document.getElementById('komposisi-gambar'), // New dropdown
+            paletWarna: document.getElementById('palet-warna-gambar'), // New dropdown
+            detailFokus: document.getElementById('detail-fokus-gambar'), // New dropdown
+            referensiArtis: document.getElementById('referensi-artis-gambar'), // New text input
             ideTambahan: document.getElementById('ide-tambahan-gambar'),
             promptNegatif: document.getElementById('prompt-negatif-gambar')
         };
@@ -710,10 +964,14 @@
             suasanaEmosi: document.getElementById('suasana-emosi-video'),
             durasi: document.getElementById('durasi-video'),
             pergerakanKamera: document.getElementById('pergerakan-kamera'),
-            gayaVideo: document.getElementById('gaya-video'), // Now a select element
+            gayaVideo: document.getElementById('gaya-video'),
             bahasaDialog: document.getElementById('bahasa-dialog'),
-            backsound: document.getElementById('backsound-video'), // New backsound input
-            efekSuara: document.getElementById('efek-suara-video'), // New sound effects input
+            backsound: document.getElementById('backsound-video'),
+            efekSuara: document.getElementById('efek-suara-video'),
+            jenisShot: document.getElementById('jenis-shot-video'), // New dropdown
+            transisi: document.getElementById('transisi-video'), // New dropdown
+            kecepatanGerak: document.getElementById('kecepatan-gerak-video'), // New dropdown
+            waktuDalamVideo: document.getElementById('waktu-dalam-video'), // New text input
             ideTambahan: document.getElementById('ide-tambahan-video'),
             promptNegatif: document.getElementById('prompt-negatif-video')
         };
@@ -725,6 +983,11 @@
             gayaVideoSutradara: document.getElementById('gaya-video-sutradara'),
             subjekUtamaSkenario: document.getElementById('subjek-utama-skenario'),
             alurCeritaSingkat: document.getElementById('alur-cerita-singkat'),
+            genre: document.getElementById('genre-sutradara'), // New dropdown
+            strukturNarasi: document.getElementById('struktur-narasi-sutradara'), // New dropdown
+            tone: document.getElementById('tone-sutradara'), // New dropdown
+            targetAudiens: document.getElementById('target-audiens-sutradara'), // New text input
+            pesanTema: document.getElementById('pesan-tema-sutradara'), // New text input
             ideTambahanSkenario: document.getElementById('ide-tambahan-skenario'),
             promptNegatifSkenario: document.getElementById('prompt-negatif-skenario')
         };
@@ -736,7 +999,10 @@
             audiensTargetTeks: document.getElementById('audiens-target-teks'),
             tujuanTeks: document.getElementById('tujuan-teks'),
             panjangTeks: document.getElementById('panjang-teks'),
+            strukturTeks: document.getElementById('struktur-teks'), // New dropdown
+            nadaTeks: document.getElementById('nada-teks'), // New dropdown
             kataKunciUtamaTeks: document.getElementById('kata-kunci-utama-teks'),
+            sumberReferensiTeks: document.getElementById('sumber-referensi-teks'), // New text area
             ideTambahanTeks: document.getElementById('ide-tambahan-teks'),
             promptNegatifTeks: document.getElementById('prompt-negatif-teks')
         };
@@ -750,23 +1016,22 @@
 
         // Function to show/hide loading spinner for specific area
         function showLoading(show, area = 'main') {
-            if (area === 'main') {
-                if (show) {
+            if (show) {
+                if (area === 'main') {
                     loadingIndicatorMain.classList.remove('hidden');
                     resultDiv.innerHTML = ''; // Clear previous results
-                } else {
-                    loadingIndicatorMain.classList.add('hidden');
-                }
-            } else if (area === 'additional') {
-                if (show) {
+                } else if (area === 'additional') {
                     loadingIndicatorAdditional.classList.remove('hidden');
                     additionalContentDiv.innerHTML = ''; // Clear previous additional results
                     additionalResultsArea.classList.remove('hidden'); // Ensure additional area is visible
-                } else {
+                }
+            } else {
+                if (area === 'main') {
+                    loadingIndicatorMain.classList.add('hidden');
+                } else if (area === 'additional') {
                     loadingIndicatorAdditional.classList.add('hidden');
                 }
             }
-            // Removed gallery loading as gallery is removed
         }
 
         // Function to display messages (success/error)
@@ -785,9 +1050,6 @@
 
         // Function to call Gemini API
         async function callGeminiAPI(prompt, schema = null, targetArea = 'main') {
-            // Since login is removed, AI features are always available.
-            // No need for isLoggedInUser check here.
-
             showLoading(true, targetArea);
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
@@ -946,14 +1208,22 @@
             if (activeTabContent.id === 'tab-content-gambar') {
                 gambarInputs.gaya.value = 'Seni Digital';
                 gambarInputs.kategori.value = 'Alam/Lanskap';
-                gambarInputs.sudutKamera.value = 'Wide Angle';
-                gambarInputs.waktuPencahayaan.value = 'Siang Hari';
+                gambarInputs.sudutKamera.value = 'Close-up';
+                gambarInputs.waktuPencahayaan.value = 'Golden Hour';
                 gambarInputs.subjek.value = 'Pohon besar dengan akar yang menjalar';
                 gambarInputs.aksi.value = 'Berdiri tegak di tengah padang rumput';
                 gambarInputs.pengaturan.value = 'Latar belakang pegunungan berkabut';
-                sutradaraInputs.gayaVideoSutradara.value = 'Documentary'; // Fixed typo
-                gambarInputs.suasanaEmosi.value = 'Tenang dan megah';
+                gambarInputs.suasanaEmosi.value = 'Tenang';
+                gambarInputs.bahanTekstur.value = 'Kayu';
+                gambarInputs.ekspresiEmosi.value = 'Senyum lebar';
+                gambarInputs.usiaEra.value = 'Masa depan';
                 gambarInputs.rasioAspek.value = '16:9';
+                gambarInputs.resolusi.value = '4K';
+                gambarInputs.komposisi.value = 'Aturan Sepertiga';
+                gambarInputs.paletWarna.value = 'Hangat';
+                gambarInputs.detailFokus.value = 'Sangat Detail';
+                gambarInputs.referensiArtis.value = 'Gaya Van Gogh';
+                gambarInputs.ideTambahan.value = 'Detail tambahan atau instruksi khusus';
                 gambarInputs.promptNegatif.value = 'Buruk, Distorsi';
             } else if (activeTabContent.id === 'tab-content-video-tunggal') {
                 videoInputs.subjek.value = 'Gelombang laut';
@@ -966,13 +1236,18 @@
                 if (videoInputs.dialogKarakter2) videoInputs.dialogKarakter2.value = 'Karakter 2: Baik, terima kasih!';
                 videoInputs.aksi.value = 'Berdebur ke pantai';
                 videoInputs.pengaturan.value = 'Pemandangan pantai yang indah';
-                videoInputs.suasanaEmosi.value = 'Damai dan menenangkan';
+                videoInputs.suasanaEmosi.value = 'Damai';
                 videoInputs.durasi.value = '10';
                 videoInputs.pergerakanKamera.value = 'Pan';
                 videoInputs.gayaVideo.value = 'Cinematic'; // Set dropdown value
                 videoInputs.bahasaDialog.value = 'Bahasa Indonesia';
                 videoInputs.backsound.value = 'Musik latar ombak laut'; // Example backsound
                 videoInputs.efekSuara.value = 'Suara burung camar, Deburan ombak'; // Example sound effects
+                videoInputs.jenisShot.value = 'Establishing Shot';
+                videoInputs.transisi.value = 'Cut';
+                videoInputs.kecepatanGerak.value = 'Normal';
+                videoInputs.waktuDalamVideo.value = 'Awal adegan';
+                videoInputs.ideTambahan.value = 'Detail tambahan atau instruksi khusus untuk video';
                 videoInputs.promptNegatif.value = 'Goyangan kamera, Orang-orang';
             } else if (activeTabContent.id === 'tab-content-sutradara') {
                 sutradaraInputs.durasiVideoTotal.value = '20'; // Example: 20 seconds total
@@ -980,6 +1255,11 @@
                 sutradaraInputs.gayaVideoSutradara.value = 'Documentary';
                 sutradaraInputs.subjekUtamaSkenario.value = 'Perjalanan penemuan di hutan belantara Amazon';
                 sutradaraInputs.alurCeritaSingkat.value = 'Seorang penjelajah memulai perjalanan untuk menemukan spesies tumbuhan langka. Dia menghadapi tantangan alam dan bertemu suku asli, belajar tentang kebijaksanaan kuno.';
+                sutradaraInputs.genre.value = 'Documentary';
+                sutradaraInputs.strukturNarasi.value = 'Linear';
+                sutradaraInputs.tone.value = 'Inspiratif';
+                sutradaraInputs.targetAudiens.value = 'Umum';
+                sutradaraInputs.pesanTema.value = 'Pentingnya persahabatan';
                 sutradaraInputs.ideTambahanSkenario.value = 'Gunakan drone footage untuk pemandangan luas. Fokus pada detail flora dan fauna.';
                 sutradaraInputs.promptNegatifSkenario.value = 'Kekerasan, Konflik, Perusakan lingkungan';
             } else if (activeTabContent.id === 'tab-content-teks') {
@@ -988,7 +1268,10 @@
                 textInputs.audiensTargetTeks.value = 'Masyarakat umum';
                 textInputs.tujuanTeks.value = 'Memberikan pemahaman dasar';
                 textInputs.panjangTeks.value = 'Sedang (3-5 paragraf)';
+                textInputs.strukturTeks.value = 'Posting Blog';
+                textInputs.nadaTeks.value = 'Tenang';
                 textInputs.kataKunciUtamaTeks.value = 'AI, teknologi, manfaat, kehidupan sehari-hari';
+                textInputs.sumberReferensiTeks.value = 'Berdasarkan penelitian terbaru';
                 textInputs.ideTambahanTeks.value = 'Sertakan contoh konkret dan mudah dipahami.';
                 textInputs.promptNegatifTeks.value = 'Jargon teknis yang rumit, nada yang terlalu formal';
             }
@@ -1019,7 +1302,7 @@
                 }).filter(Boolean).join('\n');
             } else if (activeTabContent.id === 'tab-content-video-tunggal') {
                 const params = [];
-                for (const key of ['subjek', 'karakterUtama', 'karakterPendukung', 'aksi', 'pengaturan', 'suasanaEmosi', 'durasi', 'pergerakanKamera', 'gayaVideo', 'bahasaDialog', 'backsound', 'efekSuara', 'ideTambahan', 'promptNegatif']) {
+                for (const key of ['subjek', 'karakterUtama', 'karakterPendukung', 'aksi', 'pengaturan', 'suasanaEmosi', 'durasi', 'pergerakanKamera', 'gayaVideo', 'bahasaDialog', 'backsound', 'efekSuara', 'jenisShot', 'transisi', 'kecepatanGerak', 'waktuDalamVideo', 'ideTambahan', 'promptNegatif']) {
                     const inputElement = videoInputs[key];
                     if (inputElement && inputElement.value.trim()) {
                         let label = inputElement.previousElementSibling.textContent.replace('(Opsional)', '').trim();
@@ -1071,10 +1354,6 @@
 
         // Event listener for Buat dengan AI button
         document.getElementById('btn-buat-ai').addEventListener('click', async () => {
-            // Check if AI features are enabled for the current user
-            // Since login is removed, this check will always pass, enabling AI features.
-            // If you want to re-introduce login, re-enable isLoggedInUser logic and Firebase Auth.
-            
             const activeTabContent = document.querySelector('.tab-content:not(.hidden)');
             let promptText = '';
             let schema = null; // Default schema for single prompt output
@@ -1113,7 +1392,7 @@
 
                 const params = [];
                 // Collect static video inputs
-                for (const key of ['subjek', 'karakterUtama', 'karakterPendukung', 'aksi', 'pengaturan', 'suasanaEmosi', 'durasi', 'pergerakanKamera', 'gayaVideo', 'bahasaDialog', 'backsound', 'efekSuara', 'ideTambahan', 'promptNegatif']) {
+                for (const key of ['subjek', 'karakterUtama', 'karakterPendukung', 'aksi', 'pengaturan', 'suasanaEmosi', 'durasi', 'pergerakanKamera', 'gayaVideo', 'bahasaDialog', 'backsound', 'efekSuara', 'jenisShot', 'transisi', 'kecepatanGerak', 'waktuDalamVideo', 'ideTambahan', 'promptNegatif']) {
                     const inputElement = videoInputs[key];
                     if (inputElement && inputElement.value.trim()) {
                         let label = inputElement.previousElementSibling.textContent.replace('(Opsional)', '').trim();
@@ -1291,11 +1570,6 @@
                 <p>${translatedText}</p>
             `;
         });
-
-        // --- Firebase Google Sign-in and Sign-out ---
-        // Removed all Firebase Auth related event listeners and logic
-        // btnGoogleAuth.addEventListener('click', async () => { ... });
-        // btnLogout.addEventListener('click', async () => { ... });
 
     </script>
 </body>
