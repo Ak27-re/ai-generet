@@ -914,8 +914,14 @@
     <div id="message-box" class="message-box hidden"></div>
 
     <script type="module">
-        // API Key for Gemini (empty string will be filled by Canvas runtime)
-        const apiKey = "";
+        // API Key for Gemini.
+        // PENTING: Untuk aplikasi yang disebarkan ke publik (seperti di Netlify),
+        // menempatkan kunci API langsung di kode sisi klien TIDAK AMAN karena dapat dilihat oleh siapa saja.
+        // Untuk penggunaan pribadi atau pengujian, Anda bisa menempatkannya di sini.
+        // Untuk keamanan yang lebih baik di produksi, pertimbangkan untuk menggunakan Netlify Functions
+        // atau variabel lingkungan build-time yang di-proxy melalui server.
+        // Ganti "YOUR_GEMINI_API_KEY_HERE" dengan kunci API Gemini Anda yang sebenarnya.
+        const apiKey = "YOUR_GEMINI_API_KEY_HERE"; 
 
         // DOM Elements
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -1050,6 +1056,12 @@
 
         // Function to call Gemini API
         async function callGeminiAPI(prompt, schema = null, targetArea = 'main') {
+            // Check if API key is provided
+            if (apiKey === "YOUR_GEMINI_API_KEY_HERE" || !apiKey) {
+                showMessage("Error: Kunci API Gemini belum diatur. Harap masukkan kunci API Anda di kode.", true);
+                return "Error: Kunci API Gemini belum diatur.";
+            }
+
             showLoading(true, targetArea);
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
