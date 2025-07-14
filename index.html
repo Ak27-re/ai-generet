@@ -231,7 +231,6 @@
         .message-box.show {
             opacity: 1;
         }
-        /* Gallery specific styles (removed as gallery tab is removed) */
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 p-5">
@@ -257,7 +256,6 @@
             <button id="tab-video-tunggal" class="tab-button">🎬 Video Tunggal</button>
             <button id="tab-sutradara" class="tab-button">🎥 Sutradara</button>
             <button id="tab-teks" class="tab-button">✍️ Teks</button>
-            <!-- Removed Gallery Tab -->
         </div>
 
         <!-- Tab Content -->
@@ -550,7 +548,7 @@
                         <option value="Animation">Animation</option>
                         <option value="Stop Motion">Stop Motion</option>
                         <option value="Time-lapse">Time-lapse</option>
-                        <option value="Hyperlapse">Hyperlapse</soption>
+                        <option value="Hyperlapse">Hyperlapse</option>
                         <option value="Slow Motion">Slow Motion</option>
                         <option value="Action Cam">Action Cam</option>
                         <option value="Drone Footage">Drone Footage</option>
@@ -611,6 +609,15 @@
                         <option value="Fast Motion">Fast Motion</option>
                         <option value="Time-lapse">Time-lapse</option>
                         <option value="Hyperlapse">Hyperlapse</option>
+                        <option value="Slow Motion">Slow Motion</option>
+                        <option value="Action Cam">Action Cam</option>
+                        <option value="Drone Footage">Drone Footage</option>
+                        <option value="Surveillance Footage">Surveillance Footage</option>
+                        <option value="Found Footage">Found Footage</option>
+                        <option value="Music Video">Music Video</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Explainer Video">Explainer Video</option>
+                        <option value="Tutorial">Tutorial</option>
                     </select>
                 </div>
                 <div class="input-group">
@@ -649,7 +656,7 @@
                         <option value="Animation">Animation</option>
                         <option value="Stop Motion">Stop Motion</option>
                         <option value="Time-lapse">Time-lapse</option>
-                        <option value="Hyperlapse">Hyperlapse</soption>
+                        <option value="Hyperlapse">Hyperlapse</option>
                         <option value="Slow Motion">Slow Motion</option>
                         <option value="Action Cam">Action Cam</option>
                         <option value="Drone Footage">Drone Footage</option>
@@ -717,6 +724,30 @@
                 <div class="input-group">
                     <label for="target-audiens-sutradara">Target Audiens (Opsional)</label>
                     <input type="text" id="target-audiens-sutradara" placeholder="Contoh: Anak-anak, Remaja, Dewasa, Umum">
+                </div>
+                <div class="input-group">
+                    <label for="sudut-kamera-sutradara">Sudut Kamera (Opsional)</label>
+                    <select id="sudut-kamera-sutradara">
+                        <option value="">Pilih</option>
+                        <option value="Low Angle">Low Angle (Kamera di bawah subjek, membuat subjek terlihat besar/berkuasa)</option>
+                        <option value="High Angle">High Angle (Kamera di atas subjek, membuat subjek terlihat kecil/lemah)</option>
+                        <option value="Close-up">Close-up (Fokus dekat pada objek/wajah, mengisi sebagian besar bingkai)</option>
+                        <option value="Wide Shot">Wide Shot (Menunjukkan seluruh subjek dan lingkungan luasnya)</option>
+                        <option value="Medium Shot">Medium Shot (Menunjukkan subjek dari pinggang ke atas)</option>
+                        <option value="Extreme Close-up">Extreme Close-up (Fokus sangat dekat pada detail spesifik, seperti mata atau jari)</option>
+                        <option value="Over-the-Shoulder Shot">Over-the-Shoulder Shot (Kamera di belakang bahu satu karakter, menghadap karakter lain)</option>
+                        <option value="Point of View">Point of View (Menunjukkan apa yang dilihat oleh karakter)</option>
+                        <option value="Bird's Eye View">Bird's Eye View (Sudut pandang dari atas, melihat ke bawah pada subjek, seringkali untuk menunjukkan lokasi)</option>
+                        <option value="Worm's Eye View">Worm's Eye View (Sudut pandang dari bawah, melihat ke atas pada subjek)</option>
+                        <option value="Dutch Angle">Dutch Angle (Kamera dimiringkan ke satu sisi, menciptakan efek disorientasi)</option>
+                        <option value="Tracking Shot">Tracking Shot (Kamera bergerak mengikuti subjek, biasanya di atas rel atau dolly)</option>
+                        <option value="Crane Shot">Crane Shot (Kamera bergerak vertikal atau melintasi ruang menggunakan crane)</option>
+                        <option value="Handheld Shot">Handheld Shot (Kamera dipegang tangan, menciptakan kesan realistis dan tidak stabil)</option>
+                        <option value="Static Shot">Static Shot (Kamera diam, tidak bergerak)</option>
+                        <option value="Mengikuti Objek">Mengikuti Objek (Kamera terus bergerak mengikuti pergerakan objek utama)</option>
+                        <option value="Zoom Cepat">Zoom Cepat (Pembesaran/pengecilan cepat untuk efek dramatis)</option>
+                        <option value="Gerakan Lambat">Gerakan Lambat (Perekaman dengan frame rate tinggi untuk efek dramatis)</option>
+                    </select>
                 </div>
                 <div class="input-group md:col-span-2">
                     <label for="pesan-tema-sutradara">Pesan/Tema Utama (Opsional)</label>
@@ -823,23 +854,12 @@
             </div>
         </div>
 
-        <!-- Updated: Tab Content for Galeri -->
-        <div id="tab-content-galeri" class="tab-content hidden">
-            <h3 class="text-xl font-bold mb-4 text-gray-200 text-center">Galeri Prompt Tersimpan</h3>
-            <p class="text-center text-gray-400 mb-6">Prompt yang Anda simpan akan muncul di sini. Anda dapat memuat atau menghapus prompt Anda sendiri.</p>
-            <div id="gallery-loading-indicator" class="loading-spinner hidden"></div>
-            <div id="gallery-content" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Saved prompts will be loaded here -->
-            </div>
-        </div>
-
         <!-- Main Control Buttons -->
         <div class="flex flex-wrap justify-center gap-4 mb-8">
             <button id="btn-bersihkan" class="button-secondary">🖌️ Bersihkan</button>
             <button id="btn-acak" class="button-secondary">💡 Acak</button>
             <button id="btn-buat-manual" class="button-secondary">🚀 Buat Manual</button>
             <button id="btn-buat-ai" class="button-primary">✨ Buat dengan AI</button>
-            <!-- Removed Save Prompt Button -->
         </div>
 
         <!-- Additional Feature Buttons (Gambar Tab Only) -->
@@ -895,9 +915,9 @@
 
     <script type="module">
         // API Key for Gemini (empty string will be filled by Canvas runtime)
-        const apiKey = "AIzaSyD6QXppUXJGEUiIjoNNtelAcx6SJINIdWY"; // Updated with provided API key
+        const apiKey = "";
 
-        // DOM Elements (Moved to top of script for proper initialization order)
+        // DOM Elements
         const tabButtons = document.querySelectorAll('.tab-button');
         const tabContents = document.querySelectorAll('.tab-content');
         const additionalFeaturesDiv = document.getElementById('additional-features');
@@ -909,26 +929,6 @@
         const translationDropdown = document.getElementById('terjemahan-bahasa');
         const messageBox = document.getElementById('message-box'); // Message box element
         const userStatusMessage = document.getElementById('user-status-message'); // User status message element
-
-
-        // Function to update button states (Simplified as no login)
-        function updateButtonStates() {
-            // All AI features are always enabled now
-            const btnBuatAI = document.getElementById('btn-buat-ai');
-            const additionalFeatureButtons = document.querySelectorAll('#additional-features button');
-            
-            btnBuatAI.classList.remove('button-disabled');
-            btnBuatAI.disabled = false;
-            additionalFeatureButtons.forEach(button => {
-                button.classList.remove('button-disabled');
-                button.disabled = false;
-            });
-            userStatusMessage.textContent = `Fitur AI aktif.`; // Always active
-        }
-
-        // Call updateButtonStates directly on load since no async auth is needed
-        document.addEventListener('DOMContentLoaded', updateButtonStates);
-
 
         // Input fields for Gambar tab
         const gambarInputs = {
@@ -945,10 +945,10 @@
             usiaEra: document.getElementById('usia-era-gambar'),
             rasioAspek: document.getElementById('rasio-aspek-gambar'),
             resolusi: document.getElementById('resolusi-gambar'),
-            komposisi: document.getElementById('komposisi-gambar'), // New dropdown
-            paletWarna: document.getElementById('palet-warna-gambar'), // New dropdown
-            detailFokus: document.getElementById('detail-fokus-gambar'), // New dropdown
-            referensiArtis: document.getElementById('referensi-artis-gambar'), // New text input
+            komposisi: document.getElementById('komposisi-gambar'),
+            paletWarna: document.getElementById('palet-warna-gambar'),
+            detailFokus: document.getElementById('detail-fokus-gambar'),
+            referensiArtis: document.getElementById('referensi-artis-gambar'),
             ideTambahan: document.getElementById('ide-tambahan-gambar'),
             promptNegatif: document.getElementById('prompt-negatif-gambar')
         };
@@ -968,10 +968,10 @@
             bahasaDialog: document.getElementById('bahasa-dialog'),
             backsound: document.getElementById('backsound-video'),
             efekSuara: document.getElementById('efek-suara-video'),
-            jenisShot: document.getElementById('jenis-shot-video'), // New dropdown
-            transisi: document.getElementById('transisi-video'), // New dropdown
-            kecepatanGerak: document.getElementById('kecepatan-gerak-video'), // New dropdown
-            waktuDalamVideo: document.getElementById('waktu-dalam-video'), // New text input
+            jenisShot: document.getElementById('jenis-shot-video'),
+            transisi: document.getElementById('transisi-video'),
+            kecepatanGerak: document.getElementById('kecepatan-gerak-video'),
+            waktuDalamVideo: document.getElementById('waktu-dalam-video'),
             ideTambahan: document.getElementById('ide-tambahan-video'),
             promptNegatif: document.getElementById('prompt-negatif-video')
         };
@@ -983,11 +983,11 @@
             gayaVideoSutradara: document.getElementById('gaya-video-sutradara'),
             subjekUtamaSkenario: document.getElementById('subjek-utama-skenario'),
             alurCeritaSingkat: document.getElementById('alur-cerita-singkat'),
-            genre: document.getElementById('genre-sutradara'), // New dropdown
-            strukturNarasi: document.getElementById('struktur-narasi-sutradara'), // New dropdown
-            tone: document.getElementById('tone-sutradara'), // New dropdown
-            targetAudiens: document.getElementById('target-audiens-sutradara'), // New text input
-            pesanTema: document.getElementById('pesan-tema-sutradara'), // New text input
+            genre: document.getElementById('genre-sutradara'),
+            strukturNarasi: document.getElementById('struktur-narasi-sutradara'),
+            tone: document.getElementById('tone-sutradara'),
+            targetAudiens: document.getElementById('target-audiens-sutradara'),
+            pesanTema: document.getElementById('pesan-tema-sutradara'),
             ideTambahanSkenario: document.getElementById('ide-tambahan-skenario'),
             promptNegatifSkenario: document.getElementById('prompt-negatif-skenario')
         };
@@ -999,10 +999,10 @@
             audiensTargetTeks: document.getElementById('audiens-target-teks'),
             tujuanTeks: document.getElementById('tujuan-teks'),
             panjangTeks: document.getElementById('panjang-teks'),
-            strukturTeks: document.getElementById('struktur-teks'), // New dropdown
-            nadaTeks: document.getElementById('nada-teks'), // New dropdown
+            strukturTeks: document.getElementById('struktur-teks'),
+            nadaTeks: document.getElementById('nada-teks'),
             kataKunciUtamaTeks: document.getElementById('kata-kunci-utama-teks'),
-            sumberReferensiTeks: document.getElementById('sumber-referensi-teks'), // New text area
+            sumberReferensiTeks: document.getElementById('sumber-referensi-teks'),
             ideTambahanTeks: document.getElementById('ide-tambahan-teks'),
             promptNegatifTeks: document.getElementById('prompt-negatif-teks')
         };
@@ -1077,15 +1077,23 @@
                     result.candidates[0].content.parts.length > 0) {
                     const text = result.candidates[0].content.parts[0].text;
                     if (schema) {
-                        return JSON.parse(text); // Return parsed JSON for structured responses
+                        try {
+                            return JSON.parse(text); // Return parsed JSON for structured responses
+                        } catch (e) {
+                            console.error("Error parsing JSON response:", e, "Raw text:", text);
+                            showMessage("Error: Gagal memproses respons AI (JSON tidak valid).", true);
+                            return "Error: Gagal memproses respons AI.";
+                        }
                     }
                     return text; // Return plain text for unstructured responses
                 } else {
                     console.error("Unexpected API response structure:", result);
+                    showMessage("Error: Tidak dapat menghasilkan respons dari AI. Coba lagi.", true);
                     return "Error: Tidak dapat menghasilkan respons dari AI. Coba lagi.";
                 }
             } catch (error) {
                 console.error("Error calling Gemini API:", error);
+                showMessage("Error: Terjadi kesalahan saat menghubungi AI. Periksa koneksi Anda atau coba lagi.", true);
                 return "Error: Terjadi kesalahan saat menghubungi AI. Periksa koneksi Anda atau coba lagi.";
             } finally {
                 showLoading(false, targetArea);
@@ -1095,7 +1103,7 @@
         // Function to dynamically generate dialog fields based on 'Jumlah Karakter'
         function generateDialogFields(numCharacters) {
             dialogFieldsContainer.innerHTML = ''; // Clear existing fields
-            // Removed old dynamic dialog elements from videoInputs
+            // Remove old dynamic dialog elements from videoInputs to prevent memory leaks/stale references
             for (const key in videoInputs) {
                 if (key.startsWith('dialogKarakter')) {
                     delete videoInputs[key];
@@ -1111,7 +1119,7 @@
                         <textarea id="dialog-karakter-${i}" rows="2" placeholder="Dialog untuk karakter ${i}"></textarea>
                     `;
                     dialogFieldsContainer.appendChild(inputGroup);
-                    // Add the newly created textarea to theInputs object
+                    // Add the newly created textarea to the videoInputs object
                     videoInputs[`dialogKarakter${i}`] = document.getElementById(`dialog-karakter-${i}`);
                 }
             }
@@ -1140,7 +1148,6 @@
             document.getElementById(`tab-${tabId}`).classList.add('active');
             document.getElementById(`tab-content-${tabId}`).classList.remove('hidden');
 
-            // Show/hide additional features based on tab
             // Additional features are always visible now as login is removed
             additionalFeaturesDiv.classList.remove('hidden');
 
@@ -1158,11 +1165,6 @@
                     generateDialogFields(num);
                 }
             }
-
-            // Removed gallery load as gallery is removed
-            // if (tabId === 'galeri') {
-            //     loadGalleryPrompts();
-            // }
         }
 
         // Event listeners for tab buttons
@@ -1378,6 +1380,11 @@
                     return value ? `${label}: ${value}` : '';
                 }).filter(Boolean).join('\n');
 
+                if (!params.trim()) {
+                    showMessage("Harap isi setidaknya satu bidang untuk menghasilkan prompt gambar.", true);
+                    return;
+                }
+
                 promptText = `Buat prompt gambar detail dalam bahasa Inggris dan terjemahannya dalam bahasa Indonesia berdasarkan parameter berikut:\n${params}\nFormat output JSON dengan kunci 'english_prompt' dan 'indonesian_prompt'.`;
 
             } else if (activeTabContent.id === 'tab-content-video-tunggal') {
@@ -1413,13 +1420,18 @@
                     }
                 }
 
+                if (!params.filter(Boolean).join('\n').trim()) {
+                    showMessage("Harap isi setidaknya satu bidang untuk menghasilkan prompt video.", true);
+                    return;
+                }
+
                 promptText = `Buat prompt video detail dalam bahasa Inggris dan terjemahannya dalam bahasa Indonesia berdasarkan parameter berikut:\n${params.filter(Boolean).join('\n')}\nPastikan dialog setiap karakter jelas terpisah. Format output JSON dengan kunci 'english_prompt' dan 'indonesian_prompt'.`;
             } else if (activeTabContent.id === 'tab-content-sutradara') {
                 const totalDuration = parseInt(sutradaraInputs.durasiVideoTotal.value);
                 const segmentDuration = parseInt(sutradaraInputs.durasiPerSegmen.value);
 
                 if (isNaN(totalDuration) || totalDuration <= 0 || isNaN(segmentDuration) || segmentDuration <= 0) {
-                    resultDiv.innerHTML = '<p class="text-red-400">Error: Durasi Video Total dan Durasi Per Segmen harus angka positif.</p>';
+                    showMessage('Error: Durasi Video Total dan Durasi Per Segmen harus angka positif.', true);
                     return;
                 }
 
@@ -1450,6 +1462,11 @@
                     return value ? `${label}: ${value}` : '';
                 }).filter(Boolean).join('\n');
 
+                if (!params.trim()) {
+                    showMessage("Harap isi setidaknya satu bidang untuk menghasilkan skenario sutradara.", true);
+                    return;
+                }
+
                 promptText = `Buat skenario video yang terbagi menjadi ${numSegments} segmen, dengan setiap segmen berdurasi sekitar ${segmentDuration} detik, berdasarkan total durasi ${totalDuration} detik.
                 Parameter umum untuk skenario:
                 ${params}
@@ -1472,10 +1489,15 @@
                     return value ? `${label}: ${value}` : '';
                 }).filter(Boolean).join('\n');
 
+                if (!params.trim()) {
+                    showMessage("Harap isi setidaknya satu bidang untuk menghasilkan teks.", true);
+                    return;
+                }
+
                 promptText = `Buat teks detail dalam bahasa Inggris dan terjemahannya dalam bahasa Indonesia berdasarkan parameter berikut:\n${params}\nFormat output JSON dengan kunci 'english_text' dan 'indonesian_text'.`;
             }
             else {
-                resultDiv.innerHTML = '<p class="text-red-400">Fungsionalitas AI belum tersedia untuk tab ini.</p>';
+                showMessage('Fungsionalitas AI belum tersedia untuk tab ini.', true);
                 return;
             }
 
@@ -1486,10 +1508,10 @@
                     let outputHtml = '<h4 class="text-xl font-bold mb-4 text-gray-200">Skenario Video per Segmen:</h4>';
                     response.segments.forEach(segment => {
                         outputHtml += `<div class="mb-6 p-4 rounded-lg bg-gray-800 border border-gray-700">
-                                        <h5 class="text-md font-semibold text-gray-200 mb-2">Segmen ${segment.segment_number}:</h5>
-                                        <p class="mb-2"><strong>English:</strong> ${segment.english_prompt}</p>
-                                        <p><strong>Indonesia:</strong> ${segment.indonesian_prompt}</p>
-                                      </div>`;
+                                            <h5 class="text-md font-semibold text-gray-200 mb-2">Segmen ${segment.segment_number}:</h5>
+                                            <p class="mb-2"><strong>English:</strong> ${segment.english_prompt}</p>
+                                            <p><strong>Indonesia:</strong> ${segment.indonesian_prompt}</p>
+                                        </div>`;
                     });
                     resultDiv.innerHTML = outputHtml;
                     // For Sutradara, we don't store lastEnglishPrompt in the same way as it's multiple prompts
@@ -1497,6 +1519,7 @@
                     lastIndonesianPrompt = '';
                 } else {
                     resultDiv.innerHTML = `<p class="text-red-400">Error: Struktur respons skenario tidak sesuai.</p><p>${JSON.stringify(response)}</p>`;
+                    showMessage("Error: Struktur respons skenario tidak sesuai.", true);
                 }
             } else if (activeTabContent.id === 'tab-content-teks') {
                 if (typeof response === 'object' && response.english_text && response.indonesian_text) {
@@ -1510,6 +1533,7 @@
                     `;
                 } else {
                     resultDiv.innerHTML = `<p class="text-red-400">${response}</p>`;
+                    showMessage("Error: Gagal menghasilkan teks.", true);
                 }
             }
             else { // For Gambar and Video Tunggal
@@ -1524,11 +1548,100 @@
                     `;
                 } else {
                     resultDiv.innerHTML = `<p class="text-red-400">${response}</p>`;
+                    showMessage("Error: Gagal menghasilkan prompt.", true);
                 }
             }
         });
 
         // Function to handle additional feature buttons
+        async function handleAdditionalFeature(feature) {
+            // Check if a main prompt has been generated
+            if (!lastEnglishPrompt) {
+                additionalContentDiv.innerHTML = '<p class="text-yellow-400">Silakan buat prompt utama terlebih dahulu menggunakan "Buat dengan AI".</p>';
+                additionalResultsArea.classList.remove('hidden');
+                return;
+            }
+
+            // Clear previous additional results and show the area
+            additionalContentDiv.innerHTML = '';
+            additionalResultsArea.classList.remove('hidden');
+
+            let promptToProcess = lastEnglishPrompt; // Default to English prompt for processing
+            let instruction = '';
+            let schema = null; // Default schema for single string output
+
+            // Determine the instruction and schema based on the feature
+            switch (feature) {
+                case 'tingkatkan-prompt':
+                    instruction = `Tingkatkan prompt gambar/video berikut menjadi lebih detail dan kreatif:`;
+                    break;
+                case 'sarankan-kata-kunci':
+                    instruction = `Saran kata kunci terkait untuk prompt gambar/video berikut (dalam format daftar poin):`;
+                    schema = {
+                        type: "ARRAY",
+                        items: { type: "STRING" }
+                    };
+                    break;
+                case 'hasilkan-deskripsi':
+                    instruction = `Hasilkan deskripsi singkat (sekitar 2-3 kalimat) berdasarkan prompt gambar/video berikut:`;
+                    break;
+                case 'buat-variasi-prompt':
+                    instruction = `Buat 3 variasi prompt gambar/video berikut, masing-masing dalam satu baris terpisah:`;
+                    schema = {
+                        type: "ARRAY",
+                        items: { type: "STRING" }
+                    };
+                    break;
+                case 'perbaiki-gramatika':
+                    instruction = `Perbaiki gramatika dan ejaan prompt gambar/video berikut:`;
+                    break;
+                case 'sarankan-palet-warna':
+                    // For color palette, use relevant inputs from the active tab if available
+                    const activeTabContent = document.querySelector('.tab-content:not(.hidden)');
+                    if (activeTabContent.id === 'tab-content-gambar') {
+                        promptToProcess = `Untuk gambar dengan subjek: "${gambarInputs.subjek.value.trim()}" dan pengaturan: "${gambarInputs.pengaturan.value.trim()}", sarankan palet warna yang cocok (dalam format daftar poin, sebutkan nama warna dan hex code jika memungkinkan):`;
+                        if (!gambarInputs.subjek.value.trim() && !gambarInputs.pengaturan.value.trim()) {
+                            additionalContentDiv.innerHTML = '<p class="text-yellow-400">Silakan isi Subjek dan Pengaturan di tab Gambar untuk saran palet warna.</p>';
+                            return;
+                        }
+                    } else {
+                        promptToProcess = `Untuk prompt berikut, sarankan palet warna yang cocok (dalam format daftar poin, sebutkan nama warna dan hex code jika memungkinkan): ${lastEnglishPrompt}`;
+                    }
+                    schema = {
+                        type: "ARRAY",
+                        items: { type: "STRING" }
+                    };
+                    break;
+                case 'sarankan-konsep-terkait':
+                    instruction = `Sarankan 3 konsep terkait atau ide-ide baru berdasarkan prompt gambar/video berikut (dalam format daftar poin):`;
+                    schema = {
+                        type: "ARRAY",
+                        items: { type: "STRING" }
+                    };
+                    break;
+                default:
+                    additionalContentDiv.innerHTML = '<p class="text-red-400">Fitur tidak dikenal.</p>';
+                    return;
+            }
+
+            const fullPrompt = `${instruction}\n\n${promptToProcess}`;
+            const response = await callGeminiAPI(fullPrompt, schema, 'additional'); // Call API, targeting 'additional' area for loading
+
+            // Display the response based on its type
+            let outputHtml = `<h4 class="text-lg font-semibold text-gray-100 mb-2">Hasil ${feature.replace(/-/g, ' ').toUpperCase()}:</h4>`;
+            if (Array.isArray(response)) {
+                outputHtml += '<ul class="list-disc list-inside">';
+                response.forEach(item => {
+                    outputHtml += `<li>${item}</li>`;
+                });
+                outputHtml += '</ul>';
+            } else {
+                outputHtml += `<p>${response}</p>`;
+            }
+            additionalContentDiv.innerHTML = outputHtml;
+        }
+
+        // Event listener for additional feature buttons
         document.getElementById('btn-tingkatkan-prompt').addEventListener('click', () => handleAdditionalFeature('tingkatkan-prompt'));
         document.getElementById('btn-sarankan-kata-kunci').addEventListener('click', () => handleAdditionalFeature('sarankan-kata-kunci'));
         document.getElementById('btn-hasilkan-deskripsi').addEventListener('click', () => handleAdditionalFeature('hasilkan-deskripsi'));
@@ -1570,7 +1683,6 @@
                 <p>${translatedText}</p>
             `;
         });
-
     </script>
 </body>
 </html>
